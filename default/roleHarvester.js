@@ -1,7 +1,7 @@
 var roleHarvester = {
 
     /** @param {Creep} creep **/
-    run: function (creep, spawn) {
+    run: function (creep) {
         if (creep.memory.job === null || creep.memory.job === undefined)
             creep.memory.job = 'harvester';
 

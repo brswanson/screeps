@@ -24,22 +24,18 @@ module.exports.loop = function () {
     for (var i in CREEPS) {
         var creep = CREEPS[i];
 
-        var constructionTargetsExist = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
-
-        if (creepCount < MAX_ROOM_CREEP_MINERS) {
+        // Prioritization: Harvester > Builder > Upgrader
+        if (creepCount < MAX_ROOM_CREEP_MINERS)
             RoleHarvester.run(creep, SPAWN);
-        }
-        else {
-            if (!constructionTargetsExist || creepCount % 2 == 0)
-                RoleUpgrader.run(creep);
-            else if (constructionTargetsExist)
-                RoleBuilder.run(creep);
-        }
+        else if (creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES))
+            RoleBuilder.run(creep);
+        else
+            RoleUpgrader.run(creep);
 
-        // Default to harvesting if no job is assigned
+        // Default to Harvesting if no job is assigned
         if (creep.memory.job === undefined) {
-            console.log('Assigning to default role');
-            RoleHarvester.run(creep, SPAWN);
+            console.log('Assigning to default role of Harvester');
+            RoleHarvester.run(creep);
         }
 
         creepCount++;
@@ -55,8 +51,8 @@ module.exports.loop = function () {
     }
 
     // Garbage collecting dead/unused creeps in memory
-    for(var i in Memory.creeps) {
-        if(!Game.creeps[i]) {
+    for (var i in Memory.creeps) {
+        if (!Game.creeps[i]) {
             delete Memory.creeps[i];
         }
     }
