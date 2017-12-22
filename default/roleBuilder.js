@@ -20,10 +20,11 @@ var roleBuilder = {
                 }
             }
         }
+        // TODO: Creeps currently grab the closest source instead of a combination of least in use and proximity.
         else {
-            var sources = creep.room.find(FIND_SOURCES);
-            if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE)
-                creep.moveTo(sources[0]);
+            var source = creep.pos.findClosestByRange(FIND_MY_SPAWNS);
+            if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
+                creep.moveTo(source);
         }
     }
 };
