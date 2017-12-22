@@ -1,13 +1,15 @@
 module.exports.loop = function () {
-    const CREEP_SPAWN_COST = 200;
+    const CREEP_SPAWN_COST = 300;
     const MAX_ROOM_CREEPS = 14;
-    const MAX_ROOM_CREEP_MINERS = 6;
+    const MAX_ROOM_CREEP_MINERS = 7;
 
     const Utilities = require('utilities');
     const RoleBuilder = require('roleBuilder');
     const RoleHarvester = require('roleHarvester');
-    const RoleHarvester2 = require('roleHarvester2');
     const RoleUpgrader = require('roleUpgrader');
+
+    // TODO: Should create a function for evaluating payload cost
+    const PayloadWorker = [WORK, WORK, CARRY, MOVE];
 
     var spawn1 = Game.spawns['Spawn1'];
     var creepCount = 0;
@@ -19,12 +21,8 @@ module.exports.loop = function () {
             else
                 RoleBuilder.run(Game.creeps[i]);
         }
-        else {
-            if (creepCount % 2 == 0)
-                RoleHarvester.run(Game.creeps[i], Game.spawns['Spawn1']);
-            else
-                RoleHarvester2.run(Game.creeps[i], Game.spawns['Spawn1']);
-        }
+        else
+            RoleHarvester.run(Game.creeps[i], Game.spawns['Spawn1']);
 
         creepCount++;
     }
@@ -33,7 +31,7 @@ module.exports.loop = function () {
         console.log('Attempting to spawn creep: [' + creepCount + ']')
 
         var creepName = 'Harvester_' + Utilities.newGuid();
-        spawn1.spawnCreep([WORK, CARRY, MOVE], creepName);
+        spawn1.spawnCreep(PayloadWorker, creepName);
 
         console.log('Creep spawned: [' + creepName + ']')
     }
