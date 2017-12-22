@@ -1,6 +1,4 @@
 var utilities = {
-
-    /** @param {Creep} creep **/
     newGuid: function () {
         function s4() {
             return Math.floor((1 + Math.random()) * 0x10000)
@@ -12,3 +10,6 @@ var utilities = {
 };
 
 module.exports = utilities;
+
+// Links to screeps documentation
+// http://docs.screeps.com/global-objects.html

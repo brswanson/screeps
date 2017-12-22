@@ -2,7 +2,8 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function (creep) {
-        const target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+        if (creep.memory.job === null || creep.memory.job === undefined)
+        creep.memory.job = 'builder';
 
         if (creep.memory === null || creep.memory === undefined)
             creep.memory.doWork = false;
@@ -13,6 +14,7 @@ var roleBuilder = {
         if (creep.carry.energy === creep.carryCapacity)
             creep.memory.doWork = true;
 
+        const target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
         if (creep.memory.doWork) {
             if (target) {
                 if (creep.build(target) == ERR_NOT_IN_RANGE) {
