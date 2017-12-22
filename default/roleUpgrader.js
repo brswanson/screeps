@@ -3,7 +3,7 @@ var roleUpgrader = {
     /** @param {Creep} creep **/
     run: function (creep) {
         if (creep.memory.job === null || creep.memory.job === undefined)
-        creep.memory.job = 'upgrader';
+            creep.memory.job = 'upgrader';
 
         if (creep.memory === null || creep.memory === undefined)
             creep.memory.doWork = false;
@@ -21,7 +21,12 @@ var roleUpgrader = {
             }
         }
         else {
-            var source = creep.pos.findClosestByRange(FIND_MY_SPAWNS);
+            var source = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: function (s) {
+                    return (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 0)
+                }
+            });
+
             if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
                 creep.moveTo(source);
         }

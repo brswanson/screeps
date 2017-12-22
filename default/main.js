@@ -1,7 +1,7 @@
 module.exports.loop = function () {
     const CREEP_SPAWN_COST = 500;
     const MAX_ROOM_CREEPS = 12;
-    const MAX_ROOM_CREEP_MINERS = 8;
+    const MAX_ROOM_CREEP_MINERS = 6;
     // TODO: Handle the current room dynamically. Only works when hardcoded to one room you're operating in.
     const ROOM_NAME = 'W5N8';
 
@@ -28,9 +28,9 @@ module.exports.loop = function () {
         if (creepCount < MAX_ROOM_CREEP_MINERS) {
             RoleHarvester.run(creep, SPAWN);
         }
-        else if (creep.pos.lookFor(FIND_CONSTRUCTION_SITES)) {
-            RoleBuilder.run(creep);
-        }
+        // else if (creep.pos.lookFor(FIND_CONSTRUCTION_SITES)) {
+        //     RoleBuilder.run(creep);
+        // }
         else {
             RoleUpgrader.run(creep);
         }
