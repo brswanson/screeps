@@ -5,17 +5,14 @@ var roleBuilder = {
         if (creep.memory.job === null || creep.memory.job === undefined)
             creep.memory.job = 'builder';
 
-        if (creep.memory === null || creep.memory === undefined)
-            creep.memory.doWork = false;
-
-        if (creep.carry.energy === 0)
+        if (creep.memory === null || creep.memory === undefined || creep.carry.energy === 0)
             creep.memory.doWork = false;
 
         if (creep.carry.energy === creep.carryCapacity)
             creep.memory.doWork = true;
 
         if (creep.memory.doWork) {
-            const target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+            const target = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
             if (target) {
                 if (creep.build(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);

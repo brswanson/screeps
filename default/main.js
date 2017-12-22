@@ -1,12 +1,12 @@
 module.exports.loop = function () {
-    const CREEP_SPAWN_COST = 500;
+    const CREEP_SPAWN_COST = 550;
     const MAX_ROOM_CREEPS = 12;
-    const MAX_ROOM_CREEP_MINERS = 6;
+    const MAX_ROOM_CREEP_MINERS = 8;
     // TODO: Handle the current room dynamically. Only works when hardcoded to one room you're operating in.
     const ROOM_NAME = 'W5N8';
 
     // TODO: Should create a function for evaluating payload cost
-    const PayloadWorker = [WORK, WORK, WORK, MOVE, CARRY, CARRY, CARRY];
+    const PayloadWorker = [WORK, WORK, WORK, MOVE, CARRY, CARRY, CARRY, CARRY];
 
     const Utilities = require('utilities');
     const RoleBuilder = require('roleBuilder');
@@ -44,8 +44,8 @@ module.exports.loop = function () {
         creepCount++;
     }
 
-    if (creepTotal(CREEPS) <= MAX_ROOM_CREEPS && roomEnergyAvailable(ROOM_NAME) >= CREEP_SPAWN_COST) {
-        console.log('Attempting to spawn creep: [' + creepTotal(CREEPS) + '/' + MAX_ROOM_CREEPS + ']')
+    if (hashTotal(CREEPS) <= MAX_ROOM_CREEPS && roomEnergyAvailable(ROOM_NAME) >= CREEP_SPAWN_COST) {
+        console.log('Attempting to spawn creep: [' + hashTotal(CREEPS) + '/' + MAX_ROOM_CREEPS + ']')
 
         var creepName = 'Harvester_' + Utilities.newGuid();
         SPAWN.spawnCreep(PayloadWorker, creepName);
@@ -54,14 +54,16 @@ module.exports.loop = function () {
     }
 
     // Garbage collecting dead/unused creeps in memory
-    for (var i in Memory.creeps) {
-        if (!Game.creeps[i]) {
-            delete Memory.creeps[i];
+    if (hashTotal(Memory.creeps) > hashTotal(CREEPS)) {
+        for (var i in Memory.creeps) {
+            if (!Game.creeps[i]) {
+                delete Memory.creeps[i];
+            }
         }
     }
 }
 
-function creepTotal(creepHash) {
+function hashTotal(creepHash) {
     return Object.keys(creepHash).length + 1;
 }
 
