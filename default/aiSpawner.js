@@ -11,11 +11,14 @@ var aiSpawner = {
         var CREEPS = room.find(FIND_MY_CREEPS);
         var currentTotalCreeps = Utilities.hashTotal(CREEPS);
 
-        if (currentTotalCreeps <= MAX_WORKERS && RoomAvailableEnergy >= PayloadCost) {
+        if (currentTotalCreeps <= MAX_WORKERS && RoomAvailableEnergy >= PayloadCost && !spawn.spawning) {
             var creepName = 'Creep_' + Utilities.newGuid();
-            spawn.spawnCreep(PayloadWorker, creepName);
+            var success = spawn.spawnCreep(PayloadWorker, creepName);
 
-            console.log('[' + room.name + '] spawned creep [' + currentTotalCreeps + '/' + MAX_WORKERS + '] ' + creepName)
+            if (success >= 0)
+                console.log('[' + room.name + '] spawned creep [' + currentTotalCreeps + '/' + MAX_WORKERS + '] ' + creepName);
+            else
+                console.log('[' + room.name + '] FAILED to spawn  creep [' + currentTotalCreeps + '/' + MAX_WORKERS + '] ' + creepName);
         }
     }
 }
