@@ -13,10 +13,10 @@ module.exports.loop = function () {
         var spawn = Game.spawns[i];
         var room = spawn.room;
 
-        AIHarvester.run(room, 12);
-        AIUpgrader.run(room, 6);
-        AIBuilder.run(room, 6);
-        AISpawner.run(room, spawn, 20);
+        AIHarvester.run(room, 8);
+        AIUpgrader.run(room, 4);
+        AIBuilder.run(room, 4);
+        AISpawner.run(room, spawn, 16);
     }
 
     GarbageCollector.run(Memory, Game);
