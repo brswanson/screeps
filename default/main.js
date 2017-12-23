@@ -1,85 +1,28 @@
 module.exports.loop = function () {
-    const CREEP_SPAWN_COST = 550;
-    const MAX_ROOM_CREEPS = 12;
-    const MAX_ROOM_CREEP_MINERS = 8;
-    // TODO: Handle the current room dynamically. Only works when hardcoded to one room you're operating in.
-    const ROOM_NAME = 'W5N8';
-
-    // TODO: Should create a function for evaluating payload cost
-    const PayloadWorker = [WORK, WORK, WORK, MOVE, CARRY, CARRY, CARRY, CARRY];
-
     const Utilities = require('utilities');
-    const RoleBuilder = require('roleBuilder');
-    const RoleHarvester = require('roleHarvester');
-    const RoleUpgrader = require('roleUpgrader');
 
-    var MEMORY = Game.Memory;
-    var CREEPS = Game.creeps;
-    // TODO: Should get this programatically
-    var SPAWN = Game.spawns['Spawn1'];
+    const AIHarvester = require('aiHarvester');
+    const AIUpgrader = require('aiUpgrader');
+    const AIBuilder = require('aiBuilder');
+    const AISpawner = require('aiSpawner');
+    const GarbageCollector = require('garbageCollector');
 
-    // cull(CREEPS, PayloadWorker.length);
-
-    var creepCount = 0;
-    for (var i in CREEPS) {
-        var creep = CREEPS[i];
-
-        // Prioritization: Harvester > Builder > Upgrader
-        if (creepCount < MAX_ROOM_CREEP_MINERS) {
-            RoleHarvester.run(creep, SPAWN);
-        }
-        // else if (creep.pos.lookFor(FIND_CONSTRUCTION_SITES)) {
-        //     RoleBuilder.run(creep);
-        // }
-        else {
-            RoleUpgrader.run(creep);
-        }
-
-        // Default to Harvesting if no job is assigned
-        if (creep.memory.job === undefined) {
-            console.log('Assigning to default role of Harvester');
-            RoleHarvester.run(creep);
-        }
-
-        creepCount++;
+    for (var i in Game.creeps) {
+        var creep = Game.creeps[i];
+        creep.memory.job = undefined;
     }
 
-    if (hashTotal(CREEPS) <= MAX_ROOM_CREEPS && roomEnergyAvailable(ROOM_NAME) >= CREEP_SPAWN_COST) {
-        console.log('Attempting to spawn creep: [' + hashTotal(CREEPS) + '/' + MAX_ROOM_CREEPS + ']')
+    // Iterate over all existing spawns/rooms
+    // TODO: Will need to select unique rooms in the future but for now we only have one spawn per room so this works
+    for (var i in Game.spawns) {
+        var spawn = Game.spawns[i];
+        var room = spawn.room;
 
-        var creepName = 'Harvester_' + Utilities.newGuid();
-        SPAWN.spawnCreep(PayloadWorker, creepName);
-
-        console.log(SPAWN.name + ' spawned: [' + creepName + ']')
+        AIHarvester.run(room, 12);
+        AIUpgrader.run(room, 6);
+        AIBuilder.run(room, 6);
+        AISpawner.run(room, spawn, 20);
     }
 
-    // Garbage collecting dead/unused creeps in memory
-    if (hashTotal(Memory.creeps) > hashTotal(CREEPS)) {
-        for (var i in Memory.creeps) {
-            if (!Game.creeps[i]) {
-                delete Memory.creeps[i];
-            }
-        }
-    }
-}
-
-function hashTotal(creepHash) {
-    return Object.keys(creepHash).length + 1;
-}
-
-function roomEnergyAvailable(room) {
-    return Game.rooms[room].energyAvailable;
-}
-
-function isEnergyMax(spawn) {
-    return spawn.energy === spawn.energyCapacity;
-}
-
-function cull(creeps, minParts) {
-    for (var i in creeps) {
-        if (creeps[i].body.length < minParts) {
-            console.log(creeps[i].name + ': Goodbye o7');
-            creeps[i].suicide();
-        }
-    }
+    GarbageCollector.run(Memory, Game);
 }

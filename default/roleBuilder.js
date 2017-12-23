@@ -23,6 +23,7 @@ var roleBuilder = {
             var source = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: function (s) {
                     return (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 0)
+                        || (s.structureType == STRUCTURE_SPAWN && s.energy[RESOURCE_ENERGY] > 0)
                 }
             });
 
