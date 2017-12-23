@@ -13,6 +13,7 @@ module.exports.loop = function () {
         var spawn = Game.spawns[i];
         var room = spawn.room;
 
+        // TODO: Add a load balance to allocate workers appropriately amongst the different AI
         AIHarvester.run(room, 8);
         AIUpgrader.run(room, 4);
         AIBuilder.run(room, 4);
