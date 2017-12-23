@@ -1,8 +1,8 @@
-var aiUpgrader = {
+var aiRoleHarvester = {
     run: function (room, max) {
         const Utilities = require('utilities');
-        const Role = require('roleUpgrader');
-        const RoleName = 'upgrader';
+        const Role = require('roleHarvester');
+        const RoleName = 'harvester';
 
         const MAX_WORKERS = max;
 
@@ -11,24 +11,29 @@ var aiUpgrader = {
             filter: function (s) { return s.memory.job === RoleName || s.memory.job === undefined }
         });
 
-        // TODO: Intelligently assign creeps according to the specifications of the room. Currently they select sources an destinations on their own.
+        // TODO: Intelligently assign creeps according to the specifications of the room. Currently they select sources and destinations on their own.
         var creepCount = 0;
         for (var i in CREEPS) {
+            var creep = CREEPS[i];
+
             if (creepCount >= MAX_WORKERS) {
-                break;
+                if (creep.memory.job === RoleName) {
+                    Utilities.unemploy(creep);
+                }
+
+                continue;
             }
 
-            var creep = CREEPS[i];
             Role.run(creep);
 
             if (global.Debug)
-                creep.say('u');
+                creep.say('h');
 
             creepCount++;
         }
-        
+
         // console.log('[' + room.name + '] ' + creepCount + '/' + MAX_WORKERS + ' active ' + RoleName);
     }
 }
 
-module.exports = aiUpgrader;
+module.exports = aiRoleHarvester;

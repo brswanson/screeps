@@ -35,7 +35,11 @@ var utilities = {
         }
     },
 
-    unemploy: function (creeps) {
+    unemploy: function (creep) {
+        creep.memory.job = undefined;
+    },
+
+    layoff: function (creeps) {
         for (var i in creeps) {
             creeps[i].memory.job = undefined;
         }

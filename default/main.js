@@ -1,8 +1,8 @@
 global.Utilities = require('utilities');
 
-global.AIHarvester = require('aiHarvester');
-global.AIUpgrader = require('aiUpgrader');
-global.AIBuilder = require('aiBuilder');
+global.AIHarvester = require('aiRoleHarvester');
+global.AIUpgrader = require('aiRoleUpgrader');
+global.AIBuilder = require('aiRoleBuilder');
 global.AISpawner = require('aiSpawner');
 global.GarbageCollector = require('garbageCollector');
 
