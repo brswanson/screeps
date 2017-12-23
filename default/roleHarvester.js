@@ -26,8 +26,11 @@ var roleHarvester = {
                 }
             });
         }
-        if (creep.transfer(destination, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
+
+        var transferResult = creep.transfer(destination, RESOURCE_ENERGY);
+        if (transferResult == ERR_NOT_IN_RANGE) {
             creep.moveTo(destination);
+        }
     }
 };
 

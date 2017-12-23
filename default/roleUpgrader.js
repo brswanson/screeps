@@ -21,10 +21,9 @@ var roleUpgrader = {
             var source = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: function (s) {
                     return (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 0)
-                        || (s.structureType == STRUCTURE_SPAWN && s.energy[RESOURCE_ENERGY] > 0)
+                        || (s.structureType == STRUCTURE_SPAWN && s.energy > 0)
                 }
             });
-
             if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
                 creep.moveTo(source);
         }
