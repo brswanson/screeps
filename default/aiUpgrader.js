@@ -21,6 +21,9 @@ var aiUpgrader = {
             var creep = CREEPS[i];
             Role.run(creep);
 
+            if (global.Debug)
+                creep.say('u');
+
             creepCount++;
         }
         

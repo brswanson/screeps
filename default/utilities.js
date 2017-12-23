@@ -8,25 +8,25 @@ var utilities = {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     },
 
-    hashTotal: function(creepHash) {
+    hashTotal: function (creepHash) {
         return Object.keys(creepHash).length + 1;
     },
 
-    creepCost: function(body) {
+    creepCost: function (body) {
         return body.reduce(function (cost, part) {
             return cost + BODYPART_COST[part];
         }, 0);
     },
-    
-    roomEnergyAvailable: function(room) {
+
+    roomEnergyAvailable: function (room) {
         return Game.rooms[room].energyAvailable;
     },
-    
-    isEnergyMax: function(spawn) {
+
+    isEnergyMax: function (spawn) {
         return spawn.energy === spawn.energyCapacity;
     },
-    
-    cull: function(creeps, minParts) {
+
+    cull: function (creeps, minParts) {
         for (var i in creeps) {
             if (creeps[i].body.length < minParts) {
                 console.log(creeps[i].name + ': Goodbye o7');
@@ -34,10 +34,18 @@ var utilities = {
             }
         }
     },
+
+    unemploy: function (creeps) {
+        for (var i in creeps) {
+            creeps[i].memory.job = undefined;
+        }
+    },
 };
 
 module.exports = utilities;
 
-// Links to screeps documentation
-// http://docs.screeps.com/api/#
-// http://docs.screeps.com/global-objects.html
+/*
+Links to screeps documentation
+http://docs.screeps.com/api/#
+http://docs.screeps.com/global-objects.html
+*/

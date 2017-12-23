@@ -21,6 +21,9 @@ var aiHarvester = {
             var creep = CREEPS[i];
             Role.run(creep);
 
+            if (global.Debug)
+                creep.say('h');
+                
             creepCount++;
         }
         

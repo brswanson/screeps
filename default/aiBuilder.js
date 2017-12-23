@@ -21,6 +21,9 @@ var aiBuilder = {
             var creep = CREEPS[i];
             Role.run(creep);
 
+            if (global.Debug)
+                creep.say('b');
+
             creepCount++;
         }
 
