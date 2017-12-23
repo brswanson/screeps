@@ -27,7 +27,7 @@ var aiRoleUpgrader = {
             Role.run(creep);
 
             if (global.Debug)
-                creep.say('u');
+                creep.say('🛠');
 
             creepCount++;
         }

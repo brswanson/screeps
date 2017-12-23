@@ -27,7 +27,7 @@ var aiRoleHarvester = {
             Role.run(creep);
 
             if (global.Debug)
-                creep.say('h');
+                creep.say('⛏');
 
             creepCount++;
         }

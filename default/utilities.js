@@ -29,7 +29,7 @@ var utilities = {
     cull: function (creeps, minParts) {
         for (var i in creeps) {
             if (creeps[i].body.length < minParts) {
-                console.log(creeps[i].name + ': Goodbye o7');
+                console.log(creeps[i].name + ': RIP ⚰');
                 creeps[i].suicide();
             }
         }
@@ -52,4 +52,22 @@ module.exports = utilities;
 Links to screeps documentation
 http://docs.screeps.com/api/#
 http://docs.screeps.com/global-objects.html
+
+Potential future emojis for debugging:
+🔨
+⛏
+🛠
+🗡
+⚔
+🔫
+🏹
+🛡
+🔧
+⚖
+🔗
+⛓
+💉
+💊
+🛒
+⚗
 */
