@@ -1,12 +1,13 @@
 global.Utilities = require('utilities');
 
-global.AIHarvester = require('aiRoleHarvester');
-global.AIUpgrader = require('aiRoleUpgrader');
-global.AIBuilder = require('aiRoleBuilder');
-global.AISpawner = require('aiSpawner');
-global.GarbageCollector = require('garbageCollector');
+const Harvester = require('aiRoleHarvesterAssigned');
+const Upgrader = require('aiRoleUpgrader');
+const Builder = require('aiRoleBuilder');
+const Spawner = require('aiSpawner');
+const GarbageCollector = require('garbageCollector');
 
 global.Debug = true;
+// global.Utilities.layoff(Game.creeps);
 
 module.exports.loop = function () {
     // Iterate over all existing spawns/rooms
@@ -15,11 +16,11 @@ module.exports.loop = function () {
         var spawn = Game.spawns[i];
         var room = spawn.room;
 
-        // TODO: Add a load balance to allocate workers appropriately amongst the different AI
-        AIHarvester.run(room, 8);
-        AIUpgrader.run(room, 4);
-        AIBuilder.run(room, 4);
-        AISpawner.run(room, spawn, 16);
+        // TODO: Add a load balancer to allocate workers appropriately amongst the different AI
+        Harvester.run(room);
+        Upgrader.run(room, 4);
+        Builder.run(room, 4);
+        Spawner.run(room, spawn, 16);
     }
 
     GarbageCollector.run(Memory, Game);

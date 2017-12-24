@@ -3,7 +3,7 @@ var garbageCollector = {
         const Utilities = require('utilities');
 
         // Garbage collecting dead/unused creeps in memory
-        if (Utilities.hashTotal(memory.creeps) > Utilities.hashTotal(game.creeps)) {
+        if (Utilities.hashLength(memory.creeps) > Utilities.hashLength(game.creeps)) {
             for (var i in memory.creeps) {
                 if (!game.creeps[i]) {
                     delete memory.creeps[i];

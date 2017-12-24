@@ -8,7 +8,7 @@ var utilities = {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     },
 
-    hashTotal: function (creepHash) {
+    hashLength: function (creepHash) {
         return Object.keys(creepHash).length + 1;
     },
 
@@ -43,6 +43,22 @@ var utilities = {
         for (var i in creeps) {
             creeps[i].memory.job = undefined;
         }
+    },
+
+    // TODO: Add this to the source prototype
+    findAvailableMiningLocations: function (source) {
+        var pos = source.pos;
+        var nw = Game.map.getTerrainAt(new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName));
+        var n = Game.map.getTerrainAt(new RoomPosition(pos.x, pos.y + 1, pos.roomName));
+        var ne = Game.map.getTerrainAt(new RoomPosition(pos.x + 1, pos.y + 1, pos.roomName));
+        var w = Game.map.getTerrainAt(new RoomPosition(pos.x - 1, pos.y, pos.roomName));
+        var e = Game.map.getTerrainAt(new RoomPosition(pos.x + 1, pos.y, pos.roomName));
+        var sw = Game.map.getTerrainAt(new RoomPosition(pos.x - 1, pos.y - 1, pos.roomName));
+        var s = Game.map.getTerrainAt(new RoomPosition(pos.x, pos.y - 1, pos.roomName));
+        var se = Game.map.getTerrainAt(new RoomPosition(pos.x + 1, pos.y - 1, pos.roomName));
+
+        // console.log(nw + ' ' + n + ' ' + ne + '\r\n' + w + ' ' + Game.map.getTerrainAt(pos) + ' ' + e + '\r\n' + sw + ' ' + s + ' ' + se);
+        return [nw, n, ne, w, e, sw, s, se].filter(space => !OBSTACLE_OBJECT_TYPES.includes(space));
     },
 };
 

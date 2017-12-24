@@ -1,39 +1,41 @@
+const Role = require('roleUpgrader');
+const RoleName = 'upgrader';
+const RoleSymbol = '🔼';
+
 var aiRoleUpgrader = {
     run: function (room, max) {
-        const Utilities = require('utilities');
-        const Role = require('roleUpgrader');
-        const RoleName = 'upgrader';
-
-        const MAX_WORKERS = max;
-
         // Gather all creeps in the current room without a job
-        var CREEPS = room.find(FIND_MY_CREEPS, {
+        var creeps = room.find(FIND_MY_CREEPS, {
             filter: function (s) { return s.memory.job === RoleName || s.memory.job === undefined }
         });
 
         // TODO: Intelligently assign creeps according to the specifications of the room. Currently they select sources and destinations on their own.
-        var creepCount = 0;
-        for (var i in CREEPS) {
-            var creep = CREEPS[i];
-            
-            if (creepCount >= MAX_WORKERS) {
-                if (creep.memory.job === RoleName) {
-                    Utilities.unemploy(creep);
-                }
+        assignRoles(creeps, max);
+    }
+}
 
-                continue;
+function assignRoles(creeps, max) {
+    var creepCount = 0;
+    for (var i in creeps) {
+        var creep = creeps[i];
+
+        if (creepCount >= max) {
+            if (creep.memory.job === RoleName) {
+                global.Utilities.unemploy(creep);
             }
 
-            Role.run(creep);
-
-            if (global.Debug)
-                creep.say('🔼');
-
-            creepCount++;
+            continue;
         }
-        
-        // console.log('[' + room.name + '] ' + creepCount + '/' + MAX_WORKERS + ' active ' + RoleName);
+
+        Role.run(creep);
+
+        if (global.Debug)
+            creep.say(RoleSymbol);
+
+        creepCount++;
     }
+
+    // console.log('[' + room.name + '] ' + creepCount + '/' + MAX_WORKERS + ' active ' + RoleName);
 }
 
 module.exports = aiRoleUpgrader;

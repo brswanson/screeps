@@ -1,11 +1,9 @@
 var roleUpgrader = {
-
-    /** @param {Creep} creep **/
     run: function (creep) {
-        if (creep.memory.job === null || creep.memory.job === undefined)
+        if (creep.memory.job === undefined || creep.memory.job === null)
             creep.memory.job = 'upgrader';
 
-        if (creep.memory === null || creep.memory === undefined || creep.carry.energy === 0)
+        if (creep.carry.energy === 0)
             creep.memory.doWork = false;
 
         if (creep.carry.energy === creep.carryCapacity)
