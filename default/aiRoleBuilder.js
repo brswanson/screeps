@@ -4,7 +4,7 @@ const RoleSymbol = '🔨';
 
 var aiRoleBuilder = {
     run: function (room, max) {
-        // Gather all creeps in the current room without a job
+        // Gather all creeps in the current room without a job or applied to this job
         var creeps = room.find(FIND_MY_CREEPS, {
             filter: function (s) { return s.memory.class === global.ClassCivilain && (s.memory.job === RoleName || s.memory.job === undefined) }
         });

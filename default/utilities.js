@@ -27,25 +27,28 @@ var utilities = {
     },
 
     cull: function (creeps, minParts) {
-        for (var i in creeps) {
-            if (creeps[i].body.length < minParts) {
-                console.log(creeps[i].name + ': RIP ⚰');
-                creeps[i].suicide();
-            }
-        }
+        for (var i in creeps)
+            if (creeps[i].body.length < minParts)
+                this.die(creeps[i]);
     },
 
+    die: function (creep) {
+        console.log('[' + creep.name + ']: RIP ⚰');
+        creep.suicide();
+    },
+
+    // TODO: Add this to the Creep prototype
     unemploy: function (creep) {
         creep.memory.job = undefined;
+        creep.memory.sourceId = undefined;
     },
 
     layoff: function (creeps) {
-        for (var i in creeps) {
-            creeps[i].memory.job = undefined;
-        }
+        for (var i in creeps)
+            this.unemploy(creeps[i]);
     },
 
-    // TODO: Add this to the source prototype
+    // TODO: Add this to the Source prototype
     findAvailableMiningLocations: function (source) {
         var pos = source.pos;
         var nw = Game.map.getTerrainAt(new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName));
