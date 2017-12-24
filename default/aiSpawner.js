@@ -9,8 +9,8 @@ var aiSpawner = {
         const RoomAvailableEnergy = room.energyAvailable;
 
         var creeps = room.find(FIND_MY_CREEPS);
-        var totalCivilains = Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain));
-        var totalWarriors = Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassWarrior));
+        var totalCivilains = Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain)) + 1;
+        var totalWarriors = Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassWarrior)) + 1;
 
         if (totalCivilains <= maxCivilains && RoomAvailableEnergy >= PayloadWorkerCost && !spawn.spawning) {
             var creepName = 'Creep_' + Utilities.newGuid();
