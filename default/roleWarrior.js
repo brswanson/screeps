@@ -22,7 +22,8 @@ var roleWarrior = {
             }
             else {
                 // Rally near the center of the room
-                creep.moveTo(new RoomPosition(25, 25, creep.pos.roomName));
+                var destination = new RoomPosition(25, 25, creep.pos.roomName);
+                creep.moveTo(destination);
             }
         }
     }
