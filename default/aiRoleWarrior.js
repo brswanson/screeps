@@ -28,8 +28,8 @@ function assignRoles(creeps, max) {
 
         Role.run(creep);
 
-        if (global.Debug)
-            creep.say(RoleSymbol);
+        // if (global.Debug)
+        //     creep.say(RoleSymbol);
 
         creepCount++;
     }

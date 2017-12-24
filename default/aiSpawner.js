@@ -2,8 +2,8 @@ var aiSpawner = {
     run: function (room, spawn, maxCivilains, maxWarriors) {
         const Utilities = require('utilities');
 
-        const PayloadWorker = [WORK, CARRY, MOVE, MOVE];
-        const PayloadWarrior = [ATTACK, MOVE];
+        const PayloadWorker = [MOVE, MOVE, CARRY, WORK];
+        const PayloadWarrior = [MOVE, MOVE, TOUGH, ATTACK];
         const PayloadWorkerCost = Utilities.creepCost(PayloadWorker);
         const PayloadWarriorCost = Utilities.creepCost(PayloadWarrior);
         const RoomAvailableEnergy = room.energyAvailable;
@@ -23,7 +23,7 @@ var aiSpawner = {
                 console.log('[' + room.name + '] FAILED to spawn ' + global.ClassCivilain + ' creep [' + totalCivilains + '/' + maxCivilains + '] ' + creepName);
             }
         }
-        
+
         // Always attempting to spawn civilains before warriors
         if (totalCivilains >= maxCivilains && totalWarriors <= maxWarriors && RoomAvailableEnergy >= PayloadWarriorCost && !spawn.spawning) {
             var creepName = 'Creep_' + Utilities.newGuid();

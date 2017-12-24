@@ -29,6 +29,12 @@ var roleBuilder = {
                     }
                 });
 
+                // Last, try to repair wounded creeps
+                if (!closestRepair)
+                    closestRepair = creep.pos.findClosestByPath(FIND_MY_CREEPS, {
+                        filter: function (s) { return s.hits < s.hitsMax; }
+                    });
+
                 if (closestRepair) {
                     if (creep.repair(closestRepair) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(closestRepair);
