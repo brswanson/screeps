@@ -11,7 +11,7 @@ var aiRoleHarvesterAssigned = {
 
         // TODO: Allocate creeps such that dying creeps do not disrupt or shuffle the allocation of existing creeps
         var sources = room.find(FIND_SOURCES_ACTIVE);
-        var sourceMax = global.Utilities.hashLength(sources) - 1;
+        var sourceMax = global.Utilities.hashLength(sources);
         var sourceIndex = 0;
         var creepCount = 0;
 

@@ -21,10 +21,10 @@ module.exports.loop = function () {
 
         // TODO: Add a load balancer to allocate workers appropriately amongst the different AI
         Harvester.run(room);
-        Upgrader.run(room, 4);
-        Builder.run(room, 4);
-        Warrior.run(room, 10);
-        Spawner.run(room, spawn, 25, 50);
+        Upgrader.run(room, 2);
+        Builder.run(room, 2);
+        Warrior.run(room, 20);
+        Spawner.run(room, spawn, 11, 20);
     }
 
     GarbageCollector.run(Memory, Game);
