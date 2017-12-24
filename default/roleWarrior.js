@@ -17,12 +17,12 @@ var roleWarrior = {
 
             // Only attempt to attack if a target exists
             if (enemy) {
-                if (creep.attack(enemy) == ERR_NOT_IN_RANGE)
+                if (creep.rangedAttack(enemy) == ERR_NOT_IN_RANGE)
                     creep.moveTo(enemy);
             }
             else {
                 // Rally near the center of the room
-                var destination = new RoomPosition(25, 25, creep.pos.roomName);
+                var destination = new RoomPosition(25, 25, creep.room.name);
                 creep.moveTo(destination);
             }
         }

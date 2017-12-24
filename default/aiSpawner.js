@@ -3,7 +3,7 @@ var aiSpawner = {
         const Utilities = require('utilities');
 
         const PayloadWorker = [MOVE, MOVE, CARRY, WORK];
-        const PayloadWarrior = [TOUGH, MOVE, MOVE, ATTACK];
+        const PayloadWarrior = [TOUGH, MOVE, MOVE, RANGED_ATTACK];
         const PayloadWorkerCost = Utilities.creepCost(PayloadWorker);
         const PayloadWarriorCost = Utilities.creepCost(PayloadWarrior);
         const RoomAvailableEnergy = room.energyAvailable;
@@ -12,20 +12,21 @@ var aiSpawner = {
         var totalCivilains = Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain)) + 1;
         var totalWarriors = Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassWarrior)) + 1;
 
-        if (totalCivilains <= maxCivilains && RoomAvailableEnergy >= PayloadWorkerCost && !spawn.spawning) {
-            var creepName = 'Creep_' + Utilities.newGuid();
-            var success = spawn.spawnCreep(PayloadWorker, creepName, { memory: { class: global.ClassCivilain } });
+        if (totalCivilains <= maxCivilains) {
+            if (RoomAvailableEnergy >= PayloadWorkerCost && !spawn.spawning) {
+                var creepName = 'Creep_' + Utilities.newGuid();
+                var success = spawn.spawnCreep(PayloadWorker, creepName, { memory: { class: global.ClassCivilain } });
 
-            if (success >= 0) {
-                console.log('[' + room.name + '] spawned ' + global.ClassCivilain + ' creep [' + totalCivilains + '/' + maxCivilains + '] ' + creepName);
-            }
-            else {
-                console.log('[' + room.name + '] FAILED to spawn ' + global.ClassCivilain + ' creep [' + totalCivilains + '/' + maxCivilains + '] ' + creepName);
+                if (success >= 0) {
+                    console.log('[' + room.name + '] spawned ' + global.ClassCivilain + ' creep [' + totalCivilains + '/' + maxCivilains + '] ' + creepName);
+                }
+                else {
+                    console.log('[' + room.name + '] FAILED to spawn ' + global.ClassCivilain + ' creep [' + totalCivilains + '/' + maxCivilains + '] ' + creepName);
+                }
             }
         }
-
         // Always attempting to spawn civilains before warriors
-        if (totalCivilains >= maxCivilains && totalWarriors <= maxWarriors && RoomAvailableEnergy >= PayloadWarriorCost && !spawn.spawning) {
+        else if (totalWarriors <= maxWarriors && RoomAvailableEnergy >= PayloadWarriorCost && !spawn.spawning) {
             var creepName = 'Creep_' + Utilities.newGuid();
             var success = spawn.spawnCreep(PayloadWarrior, creepName, { memory: { class: global.ClassWarrior } });
 
