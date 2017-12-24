@@ -13,7 +13,7 @@ var roleWarrior = {
             // Attack the nearest Creep. If there are none, attack the nearest Spawn
             var enemy = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
             if (!enemy)
-                enemy = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
+                enemy = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES);
 
             // Only attempt to attack if a target exists
             if (enemy) {
