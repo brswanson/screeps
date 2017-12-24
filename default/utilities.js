@@ -9,7 +9,7 @@ var utilities = {
     },
 
     hashLength: function (creepHash) {
-        return Object.keys(creepHash).length + 1;
+        return Object.keys(creepHash).length;
     },
 
     creepCost: function (body) {

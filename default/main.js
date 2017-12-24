@@ -1,8 +1,11 @@
 global.Utilities = require('utilities');
+global.ClassWarrior = 'warrior';
+global.ClassCivilain = 'civilain';
 
 const Harvester = require('aiRoleHarvesterAssigned');
 const Upgrader = require('aiRoleUpgrader');
 const Builder = require('aiRoleBuilder');
+const Warrior = require('aiRoleWarrior');
 const Spawner = require('aiSpawner');
 const GarbageCollector = require('garbageCollector');
 
@@ -20,7 +23,8 @@ module.exports.loop = function () {
         Harvester.run(room);
         Upgrader.run(room, 4);
         Builder.run(room, 4);
-        Spawner.run(room, spawn, 16);
+        Warrior.run(room, 10);
+        Spawner.run(room, spawn, 25, 50);
     }
 
     GarbageCollector.run(Memory, Game);

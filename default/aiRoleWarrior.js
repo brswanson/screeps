@@ -1,15 +1,14 @@
-const Role = require('roleBuilder');
-const RoleName = 'builder';
-const RoleSymbol = '🔨';
+const Role = require('roleWarrior');
+const RoleName = 'warrior';
+const RoleSymbol = '⚔';
 
-var aiRoleBuilder = {
+var aiRoleWarrior = {
     run: function (room, max) {
         // Gather all creeps in the current room without a job
         var creeps = room.find(FIND_MY_CREEPS, {
-            filter: function (s) { return s.memory.class === global.ClassCivilain && (s.memory.job === RoleName || s.memory.job === undefined) }
+            filter: function (s) { return s.memory.class === global.ClassWarrior && (s.memory.job === RoleName || s.memory.job === undefined) }
         });
 
-        // TODO: Intelligently assign creeps according to the specifications of the room. Currently they select sources and destinations on their own.
         assignRoles(creeps, max);
     }
 }
@@ -38,4 +37,4 @@ function assignRoles(creeps, max) {
     // console.log('[' + room.name + '] ' + creepCount + '/' + MAX_WORKERS + ' active ' + RoleName);
 }
 
-module.exports = aiRoleBuilder;
+module.exports = aiRoleWarrior;
