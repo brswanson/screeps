@@ -3,7 +3,7 @@ var aiSpawner = {
         const Utilities = require('utilities');
 
         const PayloadWorker = [MOVE, MOVE, CARRY, WORK];
-        const PayloadWarrior = [TOUGH, MOVE, MOVE, RANGED_ATTACK];
+        const PayloadWarrior = [MOVE, ATTACK];
         const PayloadWorkerCost = Utilities.creepCost(PayloadWorker);
         const PayloadWarriorCost = Utilities.creepCost(PayloadWarrior);
         const RoomAvailableEnergy = room.energyAvailable;

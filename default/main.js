@@ -25,7 +25,7 @@ module.exports.loop = function () {
             Harvester.run(room);
             Upgrader.run(room, 2);
             Builder.run(room, 2);
-            Spawner.run(room, spawn, 11, 20);
+            Spawner.run(room, spawn, 11, 40);
         }
 
         Warrior.run(room, 20);
