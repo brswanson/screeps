@@ -1,37 +1,15 @@
-## Welcome to GitHub Pages
+### What is Screeps?
+This repository is my attempt at creating an AI for the "MMO sandbox game for programmers": [Screeps](https://screeps.com/).
 
-You can use the [editor on GitHub](https://github.com/brswanson/screeps/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+>"Screeps means “scripting creeps.” It’s an open-source sandbox MMO RTS game for programmers, wherein the core mechanic is programming your units’ AI. You control your colony by writing JavaScript which operate 24/7 in the single persistent real-time world filled by other players on par with you."
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### My Screeps AI
+So far only basic functionality is in place. Eventually I want the AI to at least be able to:
 
-### Markdown
+- Optimally harvest all rooms it exists in
+- Expand to nearby rooms
+- Assault nearby rooms
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/brswanson/screeps/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Screenshots
+![screeps screenshot 1](http://docs.screeps.com/img/defense4.png)
+![screeps screenshot 2](http://docs.screeps.com/img/novice.png)
