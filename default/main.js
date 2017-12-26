@@ -7,6 +7,7 @@ const Upgrader = require('aiRoleUpgrader');
 const Builder = require('aiRoleBuilder');
 const Warrior = require('aiRoleWarrior');
 const Spawner = require('aiSpawner');
+const Architect = require('aiArchitect');
 const GarbageCollector = require('garbageCollector');
 
 global.Debug = true;
@@ -26,6 +27,7 @@ module.exports.loop = function () {
             Upgrader.run(room, 2);
             Builder.run(room, 2);
             Spawner.run(room, spawn, 11, 40);
+            Architect.run(room, spawn);
         }
 
         Warrior.run(room, 20);

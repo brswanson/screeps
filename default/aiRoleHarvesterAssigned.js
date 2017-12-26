@@ -56,6 +56,7 @@ function assignRole(creep, source) {
     // console.log('[' + room.name + '] ' + creepCount + '/' + MAX_WORKERS + ' active ' + RoleName);
 }
 
+// TODO: Should move this function to another module which inits all rooms and their values so they can be used by this AI or others
 function cacheRoomSources(room) {
     var memory = Memory.rooms[room.name];
 
