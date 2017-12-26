@@ -59,12 +59,14 @@ function assignRole(creep, source) {
 function cacheRoomSources(room) {
     var memory = Memory.rooms[room.name];
 
-    if (memory.sources === undefined) {
-        memory.sources = room.find(FIND_SOURCES_ACTIVE);
+    if (memory === undefined) {
+        memory = { sources: room.find(FIND_SOURCES_ACTIVE) };
 
         for (var i in memory.sources) {
             memory.sources[i].capacity = global.Utilities.findAvailableMiningLocations(memory.sources[i]).length;
         }
+
+        Memory.rooms[room.name] = memory;
     }
 
     return memory.sources;
