@@ -51,20 +51,6 @@ var utilities = {
     // TODO: Add this to the Source prototype
     findAvailableMiningLocations: function (source) {
         var pos = source.pos;
-        var nw = Game.map.getTerrainAt(new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName));
-        var n = Game.map.getTerrainAt(new RoomPosition(pos.x, pos.y + 1, pos.roomName));
-        var ne = Game.map.getTerrainAt(new RoomPosition(pos.x + 1, pos.y + 1, pos.roomName));
-        var w = Game.map.getTerrainAt(new RoomPosition(pos.x - 1, pos.y, pos.roomName));
-        var e = Game.map.getTerrainAt(new RoomPosition(pos.x + 1, pos.y, pos.roomName));
-        var sw = Game.map.getTerrainAt(new RoomPosition(pos.x - 1, pos.y - 1, pos.roomName));
-        var s = Game.map.getTerrainAt(new RoomPosition(pos.x, pos.y - 1, pos.roomName));
-        var se = Game.map.getTerrainAt(new RoomPosition(pos.x + 1, pos.y - 1, pos.roomName));
-
-        return [nw, n, ne, w, e, sw, s, se].filter(space => !OBSTACLE_OBJECT_TYPES.includes(space));
-    },
-    
-    getAdjacentSourceTiles: function (source) {
-        var pos = source.pos;
         var nw = new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName);
         var n = new RoomPosition(pos.x, pos.y + 1, pos.roomName);
         var ne = new RoomPosition(pos.x + 1, pos.y + 1, pos.roomName);
@@ -74,7 +60,8 @@ var utilities = {
         var s = new RoomPosition(pos.x, pos.y - 1, pos.roomName);
         var se = new RoomPosition(pos.x + 1, pos.y - 1, pos.roomName);
 
-        return [nw, n, ne, w, e, sw, s, se];
+        // Return any tile which is not an obstacle
+        return [nw, n, ne, w, e, sw, s, se].filter(space => !OBSTACLE_OBJECT_TYPES.includes(Game.map.getTerrainAt(space)));
     },
 };
 
