@@ -9,9 +9,11 @@ var roleWarrior = {
         var enemy = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
         if (!enemy) {
             var enemyStructures = creep.room.find(FIND_HOSTILE_STRUCTURES);
-            enemy = enemyStructures.filter(s => s.structureType === STRUCTURE_TOWER)
-            // Only attempt to engage Towers you can reach
-            if (!enemy || !creep.pos.findClosestByPath(enemy))
+            var enemyTowers = enemyStructures.filter(s => s.structureType === STRUCTURE_TOWER);
+
+            // Prioritize Towers if they exist
+            enemy = creep.pos.findClosestByPath(enemyTowers);
+            if (!enemy)
                 enemy = creep.pos.findClosestByPath(enemyStructures);
         }
 
