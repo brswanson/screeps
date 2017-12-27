@@ -1,25 +1,28 @@
 const Role = require('roleHarvesterAssigned');
-const RoleName = 'harvester';
+const RoleName = global.RoleHarveser;
 const RoleSymbol = '⛏';
 
 var aiRoleHarvesterAssigned = {
     run: function (room) {
         // Gather all creeps in the current room without a job or applied to this job
         var creeps = room.find(FIND_MY_CREEPS, {
-            filter: function (s) { return s.memory.class === global.ClassCivilain && (s.memory.job === RoleName || s.memory.job === undefined) }
+            filter: function (s) { return s.memory.class === global.ClassCivilain && s.memory.job === RoleName }
         });
 
         // Cache the current room's sources then return them
         var roomSources = cacheRoomSources(room);
         var sources = room.find(FIND_SOURCES_ACTIVE);
+        var maxMiners = 0;
 
         // Update current worker counts for all sources
         for (var s in roomSources) {
             roomSources[s].capacityUsed = creeps.filter(c => c.memory.sourceId === roomSources[s].id).length;
             // console.log('Capacity: ' + roomSources[s].capacityUsed + '/' + roomSources[s].capacity);
+            maxMiners += roomSources[s].capacity;
         }
 
         // Assign source ids to unassigned creeps
+        // TODO: Assign starting with the source closest to the spawn in the room
         var unassignedCreeps = creeps.filter(c => c.memory.sourceId === undefined);
         for (var c in unassignedCreeps) {
             var creep = unassignedCreeps[c];
@@ -44,6 +47,8 @@ var aiRoleHarvesterAssigned = {
 
             assignRole(creep, source);
         }
+
+        return maxMiners;
     }
 }
 

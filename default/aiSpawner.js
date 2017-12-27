@@ -1,41 +1,56 @@
 var aiSpawner = {
-    run: function (room, spawn, maxCivilains, maxWarriors) {
-        const Utilities = require('utilities');
-
-        const PayloadWorker = [MOVE, MOVE, CARRY, WORK];
-        const PayloadWarrior = [MOVE, ATTACK];
-        const PayloadWorkerCost = Utilities.creepCost(PayloadWorker);
-        const PayloadWarriorCost = Utilities.creepCost(PayloadWarrior);
-        const RoomAvailableEnergy = room.energyAvailable;
+    run: function (room, spawn, maxMiners, maxBuilders, maxUpgraders, maxWarriors) {
+        const PayloadHarvester = [WORK, WORK, MOVE, CARRY]; // 300 cost, 400 hits
+        const PayloadBuilder = [MOVE, WORK, MOVE, CARRY]; // 200 cost, 400 hits
+        const PayloadUpgrader = [MOVE, WORK, MOVE, CARRY]; // 200 cost, 400 hits
+        const PayloadWarrior = [TOUGH, MOVE, MOVE, ATTACK]; // 190 cost, 400 hits
 
         var creeps = room.find(FIND_MY_CREEPS);
-        var totalCivilains = Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain)) + 1;
-        var totalWarriors = Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassWarrior)) + 1;
+        // TODO: Could create an object of role to count instead of calling this four times.
+        var totalMiners = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain && creep.memory.job === global.RoleHarveser)) + 1;
+        var totalBuilders = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain && creep.memory.job === global.RoleBuilder)) + 1;
+        var totalUpgraders = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain && creep.memory.job === global.RoleUpgrader)) + 1;
+        var totalWarriors = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassWarrior && creep.memory.job === global.RoleWarrior)) + 1;
 
-        if (totalCivilains <= maxCivilains) {
-            if (RoomAvailableEnergy >= PayloadWorkerCost && !spawn.spawning) {
-                var creepName = 'Creep_' + Utilities.newGuid();
-                var success = spawn.spawnCreep(PayloadWorker, creepName, { memory: { class: global.ClassCivilain } });
-
-                if (success >= 0) {
-                    console.log('[' + room.name + '] spawned ' + global.ClassCivilain + ' creep [' + totalCivilains + '/' + maxCivilains + '] ' + creepName);
-                }
-                else {
-                    console.log('[' + room.name + '] FAILED to spawn ' + global.ClassCivilain + ' creep [' + totalCivilains + '/' + maxCivilains + '] ' + creepName);
-                }
-            }
+        // Miners
+        if (totalMiners <= maxMiners) {
+            spawnCreepWithProperties(totalMiners, maxMiners, PayloadHarvester, global.ClassCivilain, global.RoleHarveser, room, spawn);
         }
-        // Always attempting to spawn civilains before warriors
-        else if (totalWarriors <= maxWarriors && RoomAvailableEnergy >= PayloadWarriorCost && !spawn.spawning) {
-            var creepName = 'Creep_' + Utilities.newGuid();
-            var success = spawn.spawnCreep(PayloadWarrior, creepName, { memory: { class: global.ClassWarrior } });
+        // Builders
+        else if (totalBuilders <= maxBuilders) {
+            spawnCreepWithProperties(totalBuilders, maxBuilders, PayloadBuilder, global.ClassCivilain, global.RoleBuilder, room, spawn);
+        }
+        // Upgraders
+        else if (totalUpgraders <= maxUpgraders) {
+            spawnCreepWithProperties(totalUpgraders, maxUpgraders, PayloadUpgrader, global.ClassCivilain, global.RoleUpgrader, room, spawn);
+        }
+        // Warriors
+        else if (totalWarriors <= maxWarriors) {
+            spawnCreepWithProperties(totalWarriors, maxWarriors, PayloadWarrior, global.ClassWarrior, global.RoleWarrior, room, spawn);
+        }
+    }
+}
 
-            if (success >= 0) {
-                console.log('[' + room.name + '] spawned ' + global.ClassWarrior + ' creep [' + totalWarriors + '/' + maxWarriors + '] ' + creepName);
-            }
-            else {
-                console.log('[' + room.name + '] FAILED to spawn ' + global.ClassWarrior + ' creep [' + totalWarriors + '/' + maxWarriors + '] ' + creepName);
-            }
+function spawnCreepWithProperties(total, max, payload, className, roleName, room, spawn) {
+    if (total <= max) {
+        // Dynamically upgrade the passed in payload by duplicating it as much as the room's energy capacity can support
+        var payloadCost = global.Utilities.creepCost(payload);
+        var maxPayloadCopies = Math.floor(room.energyCapacityAvailable / payloadCost);
+        payloadCost *= maxPayloadCopies;
+
+        if (room.energyAvailable >= payloadCost && !spawn.spawning) {
+            // Re-build the payload as needed
+            if (maxPayloadCopies > 1)
+                for (var i = 0; i < maxPayloadCopies; i++)
+                    payload.push.apply(payload, payload.splice(0));
+
+            var creepName = room.name + '_' + roleName + '_' + global.Utilities.newGuid();
+            var success = spawn.spawnCreep(payload, creepName, { memory: { class: className, job: roleName } });
+
+            if (success >= 0)
+                console.log('[' + room.name + '] spawned ' + className + ' creep [' + total + '/' + max + '] ' + creepName);
+            else
+                console.log('[' + room.name + '] FAILED to spawn ' + className + ' creep [' + total + '/' + max + '] ' + creepName);
         }
     }
 }

@@ -28,8 +28,7 @@ var utilities = {
 
     cull: function (creeps, minParts) {
         for (var i in creeps)
-            if (creeps[i].body.length < minParts)
-                this.die(creeps[i]);
+            this.die(creeps[i]);
     },
 
     die: function (creep) {
@@ -71,6 +70,8 @@ module.exports = utilities;
 Links to screeps documentation
 http://docs.screeps.com/api/#
 http://docs.screeps.com/global-objects.html
+Screeps body calc
+https://codepen.io/findoff/full/RPmqOd/
 
 Potential future emojis for debugging:
 🔨

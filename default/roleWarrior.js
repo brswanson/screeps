@@ -1,8 +1,5 @@
 var roleWarrior = {
     run: function (creep) {
-        if (creep.memory.job === undefined || creep.memory.job === null)
-            creep.memory.job = 'warrior';
-
         // TODO: Retreat if below 20% health
         // if (creep.hits <= creep.hitsMax * .2)
         //     creep.memory.wounded = true;

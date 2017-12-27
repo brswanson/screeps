@@ -1,8 +1,5 @@
 var roleHarvester = {
     run: function (creep) {
-        if (creep.memory.job === undefined || creep.memory.job === null)
-            creep.memory.job = 'harvester';
-
         // Harvests from the nearest source
         // TODO: Load balancing by active miners on the source
         if (creep.carry.energy < creep.carryCapacity) {

@@ -1,8 +1,5 @@
 var roleHarvesterAssigned = {
     run: function (creep, source) {
-        if (creep.memory.job === undefined || creep.memory.job === null)
-            creep.memory.job = 'harvester';
-
         // Harvests from its assigned source
         if (creep.carry.energy < creep.carryCapacity) {
             if (creep.harvest(source) == ERR_NOT_IN_RANGE)
