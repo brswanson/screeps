@@ -8,13 +8,7 @@ var aiArchitect = {
 
             // Save the path to memory in case we need to rebuild the road at some point
             // Ignore creeps and treat swamps the same as plains when laying roads
-            if (source.pathToSpawn === undefined) {
-                source.pathToSpawn = PathFinder.search(
-                    new RoomPosition(source.pos.x, source.pos.y, source.pos.roomName)
-                    , new RoomPosition(spawn.pos.x, spawn.pos.y, spawn.pos.roomName)
-                    , { swampCost: 1, plainCost: 1 })
-                    .path;
-
+            if (source.pathToSpawn.blueprintSet === undefined) {
                 // Lay roads along the path to the Source
                 for (var i in source.pathToSpawn) {
                     var pos = source.pathToSpawn[i];
@@ -25,9 +19,10 @@ var aiArchitect = {
                 // Lay roads on all mining locations adjacent to the Source
                 var tilesAdjacentSource = global.Utilities.findAvailableMiningLocations(source);
                 for (var i in tilesAdjacentSource) {
-                    // TODO: Should create a function which returns only viable locations instead of every location. But, this is a small optimisation.
                     Game.rooms[room.name].createConstructionSite(tilesAdjacentSource[i].x, tilesAdjacentSource[i].y, STRUCTURE_ROAD);
                 }
+
+                source.pathToSpawn.blueprintSet = true;
             }
         }
     }

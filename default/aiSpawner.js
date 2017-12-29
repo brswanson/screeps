@@ -1,20 +1,20 @@
 var aiSpawner = {
-    run: function (room, spawn, maxMiners, maxBuilders, maxUpgraders, maxWarriors) {
+    run: function (room, spawn, maxHarvesters, maxBuilders, maxUpgraders, maxWarriors) {
         const PayloadHarvester = [WORK, WORK, MOVE, CARRY]; // 300 cost, 400 hits
-        const PayloadBuilder = [MOVE, WORK, MOVE, CARRY]; // 200 cost, 400 hits
-        const PayloadUpgrader = [MOVE, WORK, MOVE, CARRY]; // 200 cost, 400 hits
+        const PayloadBuilder = [MOVE, WORK, MOVE, MOVE, CARRY, CARRY]; // 300 cost, 600 hits
+        const PayloadUpgrader = [MOVE, WORK, MOVE, MOVE, CARRY, CARRY]; // 300 cost, 600 hits
         const PayloadWarrior = [TOUGH, MOVE, MOVE, ATTACK]; // 190 cost, 400 hits
 
         var creeps = room.find(FIND_MY_CREEPS);
         // TODO: Could create an object of role to count instead of calling this four times.
-        var totalMiners = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain && creep.memory.job === global.RoleHarveser)) + 1;
+        var totalHarvesters = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain && creep.memory.job === global.RoleHarveser)) + 1;
         var totalBuilders = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain && creep.memory.job === global.RoleBuilder)) + 1;
         var totalUpgraders = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassCivilain && creep.memory.job === global.RoleUpgrader)) + 1;
         var totalWarriors = global.Utilities.hashLength(creeps.filter(creep => creep.memory.class === global.ClassWarrior && creep.memory.job === global.RoleWarrior)) + 1;
 
         // Miners
-        if (totalMiners <= maxMiners) {
-            spawnCreepWithProperties(totalMiners, maxMiners, PayloadHarvester, global.ClassCivilain, global.RoleHarveser, room, spawn);
+        if (totalHarvesters <= maxHarvesters) {
+            spawnCreepWithProperties(totalHarvesters, maxHarvesters, PayloadHarvester, global.ClassCivilain, global.RoleHarveser, room, spawn);
         }
         // Builders
         else if (totalBuilders <= maxBuilders) {
