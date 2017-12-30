@@ -17,6 +17,7 @@ const RoomSurveyor = require('aiRoomSurveyor');
 const Architect = require('aiArchitect');
 const GarbageCollector = require('garbageCollector');
 
+global.HeartBeat = 0;
 global.Debug = true;
 // global.Utilities.cull(Game.creeps);
 
@@ -45,4 +46,7 @@ module.exports.loop = function () {
     }
 
     GarbageCollector.run(Memory, Game);
+
+    // Increment the heartbeat. Some conditions are only checked at fixed intervals of the heart beat to conserve CPU
+    global.HeartBeat++;
 }

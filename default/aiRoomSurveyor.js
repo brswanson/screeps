@@ -28,16 +28,18 @@ function cacheRoomSources(room, spawn) {
     var memory = Memory.rooms[room.name];
 
     if (memory === undefined) {
-        memory = { sources: room.find(FIND_SOURCES_ACTIVE) };
+        memory = { sources: room.find(FIND_SOURCES_ACTIVE), controller: room.controller };
 
+        // Iterate over all Sources in the room, assigning a direct path from them to the Spawner as we go
         for (var i in memory.sources) {
             var source = memory.sources[i];
 
-            // Set miner capacity (number of open tiles)
-            source.capacity = global.Utilities.findAvailableMiningLocations(memory.sources[i]).length;
+            // Set harvester capacity (number of open tiles)
+            source.harvestingLocations = global.Utilities.findAvailableHarvestingLocations(memory.sources[i]);
+            source.capacity = source.harvestingLocations.length;
 
+            // Set path from Source to Spawn
             if (spawn !== undefined) {
-                // Set path from source to the room Spawn
                 source.pathToSpawn = PathFinder.search(
                     new RoomPosition(source.pos.x, source.pos.y, source.pos.roomName)
                     , new RoomPosition(spawn.pos.x, spawn.pos.y, spawn.pos.roomName)
@@ -48,6 +50,15 @@ function cacheRoomSources(room, spawn) {
                 // TODO: This code will need to be tweaked once energy containers are incorporated. Right now, harvesters deliver to the nearest Spawner or Extension.
                 source.capacity += Math.floor((source.pathToSpawn.length * HARVESTER_TILE_COST) / HARVESTER_MINING_TIME);
             }
+        }
+
+        // Set path from Controller to Spawn
+        if (memory.controller !== undefined) {
+            memory.controller.pathToSpawn = PathFinder.search(
+                new RoomPosition(memory.controller.pos.x, memory.controller.pos.y, memory.controller.pos.roomName)
+                , new RoomPosition(spawn.pos.x, spawn.pos.y, spawn.pos.roomName)
+                , { swampCost: 1, plainCost: 1 })
+                .path;
         }
 
         Memory.rooms[room.name] = memory;

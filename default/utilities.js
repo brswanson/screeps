@@ -48,7 +48,7 @@ var utilities = {
     },
 
     // TODO: Add this to the Source prototype
-    findAvailableMiningLocations: function (source) {
+    findAvailableHarvestingLocations: function (source) {
         var pos = source.pos;
         var nw = new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName);
         var n = new RoomPosition(pos.x, pos.y + 1, pos.roomName);
