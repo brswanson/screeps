@@ -26,7 +26,7 @@ var aiRoomSurveyor = {
 
 function cacheRoomSources(room, spawn) {
     var memory = Memory.rooms[room.name];
-    
+
     if (memory === undefined) {
         memory = { sources: room.find(FIND_SOURCES_ACTIVE) };
 
@@ -36,16 +36,18 @@ function cacheRoomSources(room, spawn) {
             // Set miner capacity (number of open tiles)
             source.capacity = global.Utilities.findAvailableMiningLocations(memory.sources[i]).length;
 
-            // Set path from source to the room Spawn
-            source.pathToSpawn = PathFinder.search(
-                new RoomPosition(source.pos.x, source.pos.y, source.pos.roomName)
-                , new RoomPosition(spawn.pos.x, spawn.pos.y, spawn.pos.roomName)
-                , { swampCost: 1, plainCost: 1 })
-                .path;
+            if (spawn !== undefined) {
+                // Set path from source to the room Spawn
+                source.pathToSpawn = PathFinder.search(
+                    new RoomPosition(source.pos.x, source.pos.y, source.pos.roomName)
+                    , new RoomPosition(spawn.pos.x, spawn.pos.y, spawn.pos.roomName)
+                    , { swampCost: 1, plainCost: 1 })
+                    .path;
 
-            // Allocate additional harvester capacity based on distance from source to spawn
-            // TODO: This code will need to be tweaked once energy containers are incorporated. Right now, harvesters deliver to the nearest Spawner or Extension.
-            source.capacity += Math.floor((source.pathToSpawn.length * HARVESTER_TILE_COST) / HARVESTER_MINING_TIME);
+                // Allocate additional harvester capacity based on distance from source to spawn
+                // TODO: This code will need to be tweaked once energy containers are incorporated. Right now, harvesters deliver to the nearest Spawner or Extension.
+                source.capacity += Math.floor((source.pathToSpawn.length * HARVESTER_TILE_COST) / HARVESTER_MINING_TIME);
+            }
         }
 
         Memory.rooms[room.name] = memory;
