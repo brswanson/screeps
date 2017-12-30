@@ -53,7 +53,7 @@ function cacheRoomSources(room, spawn) {
         }
 
         // Set path from Controller to Spawn
-        if (memory.controller !== undefined) {
+        if (memory.controller !== undefined && spawn !== undefined) {
             memory.controller.pathToSpawn = PathFinder.search(
                 new RoomPosition(memory.controller.pos.x, memory.controller.pos.y, memory.controller.pos.roomName)
                 , new RoomPosition(spawn.pos.x, spawn.pos.y, spawn.pos.roomName)

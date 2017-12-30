@@ -11,10 +11,11 @@ const Harvester = require('aiRoleHarvester');
 const Upgrader = require('aiRoleUpgrader');
 const Builder = require('aiRoleBuilder');
 const Warrior = require('aiRoleWarrior');
-const Spawner = require('aiSpawner');
 
+const Spawner = require('aiSpawner');
 const RoomSurveyor = require('aiRoomSurveyor');
 const Architect = require('aiArchitect');
+const Warmaster = require('aiWarmaster');
 const GarbageCollector = require('garbageCollector');
 
 global.HeartBeat = 0;
@@ -41,8 +42,9 @@ module.exports.loop = function () {
             Architect.run(room, spawn);
         }
 
-        // Execute warrior AI last so if tasks are dropped due to CPU constraints it won't affect the economy as much
-        Warrior.run(room);
+        // Execute combat AI last so if tasks are dropped due to CPU constraints it won't affect the economy as much
+        var militaryTarget = Warmaster.run();
+        Warrior.run(room, militaryTarget);
     }
 
     GarbageCollector.run(Memory, Game);
