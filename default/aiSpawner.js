@@ -1,8 +1,8 @@
 var aiSpawner = {
     run: function (room, spawn, maxHarvesters, maxBuilders, maxUpgraders, maxWarriors) {
         const PayloadHarvester = [WORK, WORK, MOVE, CARRY]; // 300 cost, 400 hits
-        const PayloadBuilder = [MOVE, WORK, MOVE, MOVE, CARRY, CARRY]; // 300 cost, 600 hits
-        const PayloadUpgrader = [MOVE, WORK, MOVE, MOVE, CARRY, CARRY]; // 300 cost, 600 hits
+        const PayloadBuilder = [MOVE, WORK, MOVE, CARRY, CARRY]; // 300 cost, 500 hits
+        const PayloadUpgrader = [MOVE, WORK, MOVE, CARRY, CARRY]; // 300 cost, 500 hits
         const PayloadWarrior = [TOUGH, MOVE, MOVE, ATTACK]; // 190 cost, 400 hits
 
         var creeps = room.find(FIND_MY_CREEPS);
