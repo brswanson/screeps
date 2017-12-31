@@ -1,21 +1,14 @@
-/*
-Number of tiles needed to justify the allocation of an additional harvester.
-Factors to consider:
-    a) travel distance time
-    b) mining speed
-Calculation: Math.floor(TRAVEL_TICKS / HARVESTING_RATE )
-    Example: Takes 30 ticks for a round trip. Takes 13 ticks to harvest.
-    MIN(30 / 13) -> 2. In the time it takes for one harvester to leave and return, at least two other harvesters can finish mining.
-TODO: This leaves some 'wasted' time where a harvester could be mining.
-TODO: Maximum potential energy harvested in a span of time is also ignored here. The typical pace is 3k/300 (ENERGY_REGEN_TIME constant for regen time).
-*/
-// Current harvester path cost on roads is 1/2 (empty/full). Overall cost of traversing in both states once is 3.
+// TODO: These values need to be re-calculated based on the strenght of Harvester bodies
+// Assuming 2 WORK parts and 1 CARRY part, it takes 13 ticks to fill
 const HARVESTER_MINING_TIME = 13;
+// Current harvester path cost on roads is 1/2 (empty/full). Overall cost of traversing in both states once is 3.
 const HARVESTER_TILE_COST = 3;
+// TODO: Hard-coding this since the room inits with 1500 capacity. Once claimed, it increases to 3000. This won't be an issue until Source Keeper or remote harvesting is implemented.
+const SOURCE_ENERGY_CAPACITY = 3000;
 
 var aiRoomSurveyor = {
     run: function (room) {
-        // TODO: Once the AI is able to generate multiple spawns per room, this will need to be updated
+        // TODO: Once the AI is able to generate multiple spawns per room, this may need to be updated
         let spawn = room.find(FIND_MY_SPAWNS)[0];
 
         cacheRoomSources(room, spawn);
@@ -25,19 +18,18 @@ var aiRoomSurveyor = {
 }
 
 function cacheRoomSources(room, spawn) {
+    // init Room memory if it doesn't exist
+    let roomMemory = Memory.rooms;
+    if (roomMemory === undefined)
+        Memory.rooms = {};
+
     let memory = Memory.rooms[room.name];
-    
     if (memory === undefined) {
         memory = { sources: room.find(FIND_SOURCES_ACTIVE), controller: room.controller };
 
         // Iterate over all Sources in the room, assigning a direct path from them to the Spawner as we go
         for (let i in memory.sources) {
             let source = memory.sources[i];
-
-            // Set harvester capacity (number of open tiles)
-            source.harvestingLocations = global.Utilities.findAvailableHarvestingLocations(memory.sources[i]);
-            source.capacity = 1;
-            // source.capacity = source.harvestingLocations.length;
 
             // Set path from Source to Spawn
             if (spawn !== undefined) {
@@ -47,12 +39,15 @@ function cacheRoomSources(room, spawn) {
                     , { swampCost: 1, plainCost: 1 })
                     .path;
 
-                // Allocate additional harvester capacity based on distance from source to spawn
-                // TODO: This code will need to be tweaked once energy containers are incorporated. Right now, harvesters deliver to the nearest Spawner or Extension.
-                source.capacity += Math.floor((source.pathToSpawn.length * HARVESTER_TILE_COST) / HARVESTER_MINING_TIME);
+                // Set Carrier capacity based on distance from Source to Spawn
+                source.carrierCapacity = Math.floor((source.pathToSpawn.length * HARVESTER_TILE_COST) / HARVESTER_MINING_TIME);
                 // Set the amount of WORK body parts that are needed to optimally drop-harvest this Source
-                source.optimalWorkBody = (source.energyCapacity / ENERGY_REGEN_TIME) / 2;
+                source.optimalWorkBody = (SOURCE_ENERGY_CAPACITY / ENERGY_REGEN_TIME) / 2;
             }
+
+            // Set Harvester capacity (number of open tiles)
+            source.harvestingLocations = global.Utilities.findAvailableHarvestingLocations(memory.sources[i]);
+            source.harvesterCapacity = Math.min(source.harvestingLocations.length, Math.ceil(source.optimalWorkBody / 2));
         }
 
         // Set path from Controller to Spawn

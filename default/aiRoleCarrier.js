@@ -17,7 +17,7 @@ var aiRoleCarrier = {
         for (let s in roomSources) {
             roomSources[s].capacityUsed = creeps.filter(c => c.memory.sourceId === roomSources[s].id).length;
             // TODO: maxCarriers may need to be re-calculated. We have a constant drop Harvester running now instead of each Creep harvesting its own Energy
-            maxCarriers += roomSources[s].capacity;
+            maxCarriers += roomSources[s].carrierCapacity;
         }
 
         // Assign Source IDs to unassigned Creeps
@@ -28,7 +28,7 @@ var aiRoleCarrier = {
             for (let s in roomSources) {
                 let source = roomSources[s];
 
-                if (source.capacityUsed < source.capacity) {
+                if (source.capacityUsed < source.carrierCapacity) {
                     creep.memory.sourceId = source.id;
                     creep.memory.source = source;
                     source.capacityUsed += 1;

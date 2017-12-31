@@ -1,20 +1,21 @@
 var roleCarrier = {
     run: function (creep, source) {
-        // Pick up any Energy dropped near the Source
+        // Pick up the largest Energy Resource dropped near the Source
         if (creep.carry.energy < creep.carryCapacity) {
-            // Check all the potential Energy drop locations for the assigned Source
+            let energyLocations = [];
             for (let i in source.harvestingLocations) {
-                let pos = source.harvestingLocations[i];
-                location = new RoomPosition(pos.x, pos.y, pos.roomName);
+                let location = new RoomPosition(source.harvestingLocations[i].x, source.harvestingLocations[i].y, source.harvestingLocations[i].roomName);
 
                 let energy = _.first(creep.room.lookForAt(RESOURCE_ENERGY, location));
-                if (energy) {
-                    let tryPickup = creep.pickup(energy);
-                    if (tryPickup == ERR_NOT_IN_RANGE)
-                        creep.moveTo(energy);
+                if (energy)
+                    energyLocations.push(energy);
+            }
+            if (energyLocations.length) {
+                let maxEnergy = _.max(energyLocations, function (e) { return e.amount; });
+                let tryPickup = creep.pickup(maxEnergy);
 
-                    break;
-                }
+                if (tryPickup == ERR_NOT_IN_RANGE)
+                    creep.moveTo(maxEnergy);
             }
         }
         // Deliver to a nearby location

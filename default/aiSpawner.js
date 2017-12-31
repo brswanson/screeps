@@ -18,13 +18,15 @@ var aiSpawner = {
         // console.log('Upgraders ' + totalUpgraders + '/' + maxUpgraders);
         // console.log('Warriors ' + totalWarriors + '/' + maxWarriors);
 
-        // Harvesters
-        // TODO: Need to ensure a Carrier is built after the initial Harvester to allow a faster economic start
-        if (totalHarvesters < maxHarvesters) {
-            spawnCreepWithProperties(totalHarvesters, maxHarvesters, PayloadDropHarvester, global.ClassCivilain, global.RoleHarvester, room, spawn);
-        }
-        else if (totalCarriers < maxCarriers) {
-            spawnCreepWithProperties(totalHarvesters, maxCarriers, PayloadUtility, global.ClassCivilain, global.RoleCarrier, room, spawn);
+        // Harvesters & Carriers
+        if (totalHarvesters < maxHarvesters || totalCarriers < maxCarriers) {
+            // Saturate each Harvester with at least one Carrier before spawning more Harvesters
+            if (totalCarriers < totalHarvesters)
+                spawnCreepWithProperties(totalCarriers, maxCarriers, PayloadUtility, global.ClassCivilain, global.RoleCarrier, room, spawn);
+            else if (totalHarvesters < maxHarvesters)
+                spawnCreepWithProperties(totalHarvesters, maxHarvesters, PayloadDropHarvester, global.ClassCivilain, global.RoleHarvester, room, spawn);
+            else if (totalCarriers < maxCarriers)
+                spawnCreepWithProperties(totalCarriers, maxCarriers, PayloadUtility, global.ClassCivilain, global.RoleCarrier, room, spawn);
         }
         // Builders
         else if (totalBuilders < maxBuilders) {

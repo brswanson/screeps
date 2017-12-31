@@ -15,10 +15,12 @@ var aiRoleHarvester = {
 
         // Set the Harvester max to one for each Source
         for (let s in roomSources) {
-            roomSources[s].capacityUsed = creeps.filter(c => c.memory.sourceId === roomSources[s].id).length;
-            maxHarvesters++;
+            let source = roomSources[s];
+            source.capacityUsed = creeps.filter(c => c.memory.sourceId === source.id).length;
+            // TODO: Assuming the number of WORK parts in a given Harvester is 2. It could be more.
+            maxHarvesters += source.harvesterCapacity;
         }
-
+        
         // Assign Source IDs to unassigned Creeps
         let unassignedCreeps = creeps.filter(c => c.memory.sourceId === undefined);
         for (let c in unassignedCreeps) {
@@ -29,7 +31,7 @@ var aiRoleHarvester = {
             for (let s in roomSources) {
                 let source = roomSources[s];
 
-                if (source.capacityUsed < 1) {
+                if (source.capacityUsed < source.harvesterCapacity) {
                     creep.memory.sourceId = roomSources[s].id;
                     source.capacityUsed += 1;
 
