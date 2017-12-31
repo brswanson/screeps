@@ -45,17 +45,31 @@ var aiSpawner = {
 
 function spawnCreepWithProperties(total, max, payload, className, roleName, room, spawn) {
     if (total <= max) {
-        // Dynamically upgrade the passed in payload by duplicating it as much as the room's energy capacity can support
-        // TODO: Harvesters only need 5 WORK bodies to optimally drop-harvest a Source. After that, CARRY would be better to reduce energy waste.
-        let payloadCost = global.Utilities.creepCost(payload);
-        let maxPayloadCopies = Math.floor(room.energyCapacityAvailable / payloadCost);
-        payloadCost *= maxPayloadCopies;
+        // No reason to check any further if the Spawner is occupied
+        if (spawn.spawning)
+            return 0;
 
-        if (room.energyAvailable >= payloadCost && !spawn.spawning) {
+        /*  TODO: Ideally we would wait until we have enough Energy to support the highest quality creep.
+                    However, using the current Energy available prevents us from halting all spawning when no Energy is coming in.
+
+            TODO: Harvesters only need 5 WORK bodies to optimally drop-harvest a Source. After that, CARRY would be better to reduce energy waste.
+        */
+        // Dynamically upgrade the passed in payload by duplicating it as much as the room's current energy available  can support
+        let payloadCost = global.Utilities.creepCost(payload);
+        let maxPayloadCopies = Math.floor(room.energyAvailable / payloadCost);
+
+        // Not enough Energy to spawn any instances of the payload
+        if (!maxPayloadCopies)
+            return 0;
+
+        if (room.energyAvailable >= payloadCost) {
             // Re-build the payload as needed
-            if (maxPayloadCopies > 1)
+            if (maxPayloadCopies > 1) {
+                let originalPayload = payload.splice(0);
+
                 for (let i = 0; i < maxPayloadCopies; i++)
-                    payload.push.apply(payload, payload.splice(0));
+                    payload.push.apply(payload, originalPayload);
+            }
 
             let creepName = room.name + '_' + roleName + '_' + global.Utilities.newGuid();
             let success = spawn.spawnCreep(payload, creepName, { memory: { room: room.name, class: className, job: roleName } });

@@ -3,10 +3,6 @@ const SOURCE_KEEPER_OWNER_NAME = 'Source Keeper';
 
 var roleWarrior = {
     run: function (creep, flag) {
-        // TODO: Retreat if below 20% health
-        // if (creep.hits <= creep.hitsMax * .2)
-        //     creep.memory.wounded = true;
-
         // TODO: Implement a more advanced algorithm for determining a target. Prioritize close hostiles such as offensive Creeps and Towers.
         let enemy = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS, { filter: function (e) { return e.owner.username !== SOURCE_KEEPER_OWNER_NAME } });
 

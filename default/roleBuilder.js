@@ -1,9 +1,9 @@
 var roleBuilder = {
     run: function (creep) {
-        if (creep.carry.energy === 0)
+        if (creep.isEmpty())
             creep.memory.doWork = false;
 
-        if (creep.carry.energy === creep.carryCapacity)
+        if (creep.isFull())
             creep.memory.doWork = true;
 
         if (creep.memory.doWork) {

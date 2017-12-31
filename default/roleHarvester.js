@@ -1,7 +1,7 @@
 var roleHarvester = {
     run: function (creep, source) {
         // Harvests from its assigned source
-        if (creep.carry.energy < creep.carryCapacity) {
+        if (!creep.isFull()) {
             if (creep.harvest(source) == ERR_NOT_IN_RANGE)
                 creep.moveTo(source);
         }

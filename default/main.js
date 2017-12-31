@@ -1,3 +1,5 @@
+require('prototypes');
+
 global.Utilities = require('utilities');
 global.ClassWarrior = 'warrior';
 global.ClassCivilain = 'civilain';
@@ -23,7 +25,7 @@ const GarbageCollector = require('garbageCollector');
 
 global.HeartBeat = 0;
 global.Debug = true;
-// global.Utilities.cull(Game.creeps);
+// for (let i in Game.creeps) Game.creeps[i].die();
 
 module.exports.loop = function () {
     // Iterate over all existing rooms. As creeps enter new rooms, they will appear in the array

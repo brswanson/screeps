@@ -1,7 +1,7 @@
 var roleCarrier = {
     run: function (creep, source) {
         // Pick up the largest Energy Resource dropped near the Source
-        if (creep.carry.energy < creep.carryCapacity) {
+        if (!creep.isFull()) {
             let energyLocations = [];
             for (let i in source.harvestingLocations) {
                 let location = new RoomPosition(source.harvestingLocations[i].x, source.harvestingLocations[i].y, source.harvestingLocations[i].roomName);

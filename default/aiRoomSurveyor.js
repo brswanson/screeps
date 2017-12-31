@@ -1,8 +1,8 @@
 // TODO: These values need to be re-calculated based on the strenght of Harvester bodies
-// Assuming 2 WORK parts and 1 CARRY part, it takes 13 ticks to fill
-const HARVESTER_MINING_TIME = 13;
+// Assuming 5 WORK parts and 1 CARRY part, it takes 5 ticks to fill a Carrier
+const HARVESTER_MINING_TIME = 5;
 // Current harvester path cost on roads is 1/2 (empty/full). Overall cost of traversing in both states once is 3.
-const HARVESTER_TILE_COST = 3;
+const HARVESTER_TILE_COST = 2;
 // TODO: Hard-coding this since the room inits with 1500 capacity. Once claimed, it increases to 3000. This won't be an issue until Source Keeper or remote harvesting is implemented.
 const SOURCE_ENERGY_CAPACITY = 3000;
 

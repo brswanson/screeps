@@ -26,27 +26,6 @@ var utilities = {
         return spawn.energy === spawn.energyCapacity;
     },
 
-    cull: function (creeps, minParts) {
-        for (let i in creeps)
-            this.die(creeps[i]);
-    },
-
-    die: function (creep) {
-        console.log('[' + creep.name + ']: RIP ⚰');
-        creep.suicide();
-    },
-
-    // TODO: Add this to the Creep prototype
-    unemploy: function (creep) {
-        creep.memory.job = undefined;
-        creep.memory.sourceId = undefined;
-    },
-
-    layoff: function (creeps) {
-        for (let i in creeps)
-            this.unemploy(creeps[i]);
-    },
-
     // TODO: Add this to the Source prototype
     findAvailableHarvestingLocations: function (source) {
         let pos = source.pos;
