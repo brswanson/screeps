@@ -8,7 +8,7 @@ var roleBuilder = {
 
         if (creep.memory.doWork) {
             // Look for a friendly construction site
-            var closestSite = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
+            let closestSite = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
             if (closestSite) {
                 if (creep.build(closestSite) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(closestSite);
@@ -16,7 +16,7 @@ var roleBuilder = {
             }
             else {
                 // If nothing needs to be  built, look for a friendly structure to repair
-                var closestRepair = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                let closestRepair = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: function (s) {
                         return (s.structureType === STRUCTURE_CONTAINER
                             || s.structureType === STRUCTURE_ROAD
@@ -40,7 +40,7 @@ var roleBuilder = {
             }
         }
         else {
-            var source = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            let source = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: function (s) {
                     return (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 0)
                         || (s.structureType == STRUCTURE_SPAWN && s.energy > 0)

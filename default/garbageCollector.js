@@ -4,7 +4,7 @@ var garbageCollector = {
 
         // Garbage collecting dead/unused creeps in memory
         if (Utilities.hashLength(memory.creeps) > Utilities.hashLength(game.creeps)) {
-            for (var i in memory.creeps) {
+            for (let i in memory.creeps) {
                 if (!game.creeps[i]) {
                     delete memory.creeps[i];
                 }

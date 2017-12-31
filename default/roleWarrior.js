@@ -8,11 +8,11 @@ var roleWarrior = {
         //     creep.memory.wounded = true;
 
         // TODO: Implement a more advanced algorithm for determining a target. Prioritize close hostiles such as offensive Creeps and Towers.
-        var enemy = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS, { filter: function (e) { return e.owner.username !== SOURCE_KEEPER_OWNER_NAME } });
+        let enemy = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS, { filter: function (e) { return e.owner.username !== SOURCE_KEEPER_OWNER_NAME } });
 
         if (!enemy) {
-            var enemyStructures = creep.room.find(FIND_HOSTILE_STRUCTURES, { filter: function (s) { return s.owner.username !== SOURCE_KEEPER_OWNER_NAME } });
-            var enemyTowers = enemyStructures.filter(s => s.structureType === STRUCTURE_TOWER);
+            let enemyStructures = creep.room.find(FIND_HOSTILE_STRUCTURES, { filter: function (s) { return s.owner.username !== SOURCE_KEEPER_OWNER_NAME } });
+            let enemyTowers = enemyStructures.filter(s => s.structureType === STRUCTURE_TOWER);
 
             // Prioritize Towers if they exist
             enemy = creep.pos.findClosestByPath(enemyTowers);
@@ -22,7 +22,7 @@ var roleWarrior = {
 
         // Only attempt to attack if an enemy exists
         if (enemy) {
-            var attackResult = creep.attack(enemy);
+            let attackResult = creep.attack(enemy);
             if (attackResult === ERR_NOT_IN_RANGE)
                 creep.moveTo(enemy);
         }
@@ -31,7 +31,7 @@ var roleWarrior = {
         }
         else {
             // Rally near the center of the room if no enemies or flags exist
-            var destination = new RoomPosition(25, 25, creep.room.name);
+            let destination = new RoomPosition(25, 25, creep.room.name);
             creep.moveTo(destination);
         }
     }

@@ -1,10 +1,10 @@
 var aiArchitect = {
     run: function (room, spawn) {
-        var sources = Memory.rooms[room.name].sources;
-        var controller = Memory.rooms[room.name].controller;
+        let sources = Memory.rooms[room.name].sources;
+        let controller = Memory.rooms[room.name].controller;
 
-        for (var i in sources) {
-            var source = sources[i];
+        for (let i in sources) {
+            let source = sources[i];
 
             laySourceRoads(room, source);
         }
@@ -26,11 +26,11 @@ var aiArchitect = {
 function laySourceRoads(room, source) {
     if (source.roadBlueprint === undefined) {
         // Lay roads along the path to the Source
-        for (var i in source.pathToSpawn)
+        for (let i in source.pathToSpawn)
             Game.rooms[room.name].createConstructionSite(source.pathToSpawn[i].x, source.pathToSpawn[i].y, STRUCTURE_ROAD);
 
         // Lay roads on all harvesting locations adjacent to the Source
-        for (var i in source.harvestingLocations)
+        for (let i in source.harvestingLocations)
             Game.rooms[room.name].createConstructionSite(source.harvestingLocations[i].x, source.harvestingLocations[i].y, STRUCTURE_ROAD);
 
         source.roadBlueprint = true;
@@ -40,7 +40,7 @@ function laySourceRoads(room, source) {
 function layRoomControllerRoads(room, controller) {
     if (controller.roadBlueprint === undefined) {
         // Lay roads along the path to the Source
-        for (var i in controller.pathToSpawn)
+        for (let i in controller.pathToSpawn)
             Game.rooms[room.name].createConstructionSite(controller.pathToSpawn[i].x, controller.pathToSpawn[i].y, STRUCTURE_ROAD);
 
         controller.roadBlueprint = true;
@@ -48,7 +48,7 @@ function layRoomControllerRoads(room, controller) {
 }
 
 function layExtension(room) {
-    var memory = Memory.rooms[room.name];
+    let memory = Memory.rooms[room.name];
 
     // TODO: Create an Extension if Extension capacity is <= the number of Extensions and no Extension blueprints exist
     //          We only want one Extension to be built at a time since their cost is significant

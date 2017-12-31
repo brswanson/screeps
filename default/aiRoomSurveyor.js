@@ -16,7 +16,7 @@ const HARVESTER_TILE_COST = 3;
 var aiRoomSurveyor = {
     run: function (room) {
         // TODO: Once the AI is able to generate multiple spawns per room, this will need to be updated
-        var spawn = room.find(FIND_MY_SPAWNS)[0];
+        let spawn = room.find(FIND_MY_SPAWNS)[0];
 
         cacheRoomSources(room, spawn);
 
@@ -25,18 +25,19 @@ var aiRoomSurveyor = {
 }
 
 function cacheRoomSources(room, spawn) {
-    var memory = Memory.rooms[room.name];
-
+    let memory = Memory.rooms[room.name];
+    
     if (memory === undefined) {
         memory = { sources: room.find(FIND_SOURCES_ACTIVE), controller: room.controller };
 
         // Iterate over all Sources in the room, assigning a direct path from them to the Spawner as we go
-        for (var i in memory.sources) {
-            var source = memory.sources[i];
+        for (let i in memory.sources) {
+            let source = memory.sources[i];
 
             // Set harvester capacity (number of open tiles)
             source.harvestingLocations = global.Utilities.findAvailableHarvestingLocations(memory.sources[i]);
-            source.capacity = source.harvestingLocations.length;
+            source.capacity = 1;
+            // source.capacity = source.harvestingLocations.length;
 
             // Set path from Source to Spawn
             if (spawn !== undefined) {
@@ -49,6 +50,8 @@ function cacheRoomSources(room, spawn) {
                 // Allocate additional harvester capacity based on distance from source to spawn
                 // TODO: This code will need to be tweaked once energy containers are incorporated. Right now, harvesters deliver to the nearest Spawner or Extension.
                 source.capacity += Math.floor((source.pathToSpawn.length * HARVESTER_TILE_COST) / HARVESTER_MINING_TIME);
+                // Set the amount of WORK body parts that are needed to optimally drop-harvest this Source
+                source.optimalWorkBody = (source.energyCapacity / ENERGY_REGEN_TIME) / 2;
             }
         }
 

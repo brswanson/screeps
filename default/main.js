@@ -2,12 +2,15 @@ global.Utilities = require('utilities');
 global.ClassWarrior = 'warrior';
 global.ClassCivilain = 'civilain';
 
-global.RoleHarveser = 'harvester';
+global.RoleHarvester = 'harvester';
+global.RoleCarrier = 'carrier';
 global.RoleBuilder = 'builder';
 global.RoleUpgrader = 'upgrader';
 global.RoleWarrior = 'warrior';
 
-const Harvester = require('aiRoleHarvester');
+// const Harvester = require('aiRoleHarvester');
+const Harvester = require('aiRoleHarvesterDrop');
+const Carrier = require('aiRoleCarrier');
 const Upgrader = require('aiRoleUpgrader');
 const Builder = require('aiRoleBuilder');
 const Warrior = require('aiRoleWarrior');
@@ -24,27 +27,31 @@ global.Debug = true;
 
 module.exports.loop = function () {
     // Iterate over all existing rooms. As creeps enter new rooms, they will appear in the array
-    for (var i in Game.rooms) {
-        var room = Game.rooms[i];
-        var spawn = RoomSurveyor.run(room);
+    for (let i in Game.rooms) {
+        let room = Game.rooms[i];
+        let spawn = RoomSurveyor.run(room);
+
+        let militaryTarget = Warmaster.run();
 
         // TODO: Add a load balancer to allocate workers appropriately amongst the different AI
         // Only execute infrastructure tasks in rooms we own
         if (spawn !== undefined) {
-            var maxMiners = Harvester.run(room);
-            var maxBuilders = 3;
-            var maxUpgraders = 2;
-            var maxWarriors = 40;
+            let maxHarvesters = Harvester.run(room);
+            let maxCarriers = Carrier.run(room);
+            let maxBuilders = 3;
+            let maxUpgraders = 2;
+            // TODO: Only spend CPU & Energy on warmaking if a Flag exists. This may become a liability and need to be updated at some point.
+            let maxWarriors = ((militaryTarget !== undefined) ? 40 : 0);
 
             Builder.run(room);
             Upgrader.run(room);
-            Spawner.run(room, spawn, maxMiners, maxBuilders, maxUpgraders, maxWarriors);
+            Spawner.run(room, spawn, maxHarvesters, maxCarriers, maxBuilders, maxUpgraders, maxWarriors);
             Architect.run(room, spawn);
         }
 
-        // Execute combat AI last so if tasks are dropped due to CPU constraints it won't affect the economy as much
-        var militaryTarget = Warmaster.run();
-        Warrior.run(room, militaryTarget);
+        // TODO: Only spend CPU & Energy on warmaking if a Flag exists. This may become a liability and need to be updated at some point.
+        if (militaryTarget)
+            Warrior.run(room, militaryTarget);
     }
 
     GarbageCollector.run(Memory, Game);

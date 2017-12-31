@@ -1,4 +1,4 @@
-const Role = require('roleHarvester');
+const Role = require('roleHarvesterDrop');
 const RoleName = global.RoleHarvester;
 const RoleSymbol = '⛏';
 
@@ -9,25 +9,27 @@ var aiRoleHarvester = {
             filter: function (s) { return s.memory.class === global.ClassCivilain && s.memory.job === RoleName }
         });
 
-        // Cache the current room's sources then return them ordered by distance to the room's spawn.
+        // Cache the current room's Sources then return them ordered by distance to the room's Spawner
         let roomSources = getRoomCache(room).sources.sort(function (a, b) { return (b.pathToSpawn.length < a.pathToSpawn.length) });
         let maxHarvesters = 0;
 
-        // Update current worker counts for all sources
+        // Set the Harvester max to one for each Source
         for (let s in roomSources) {
             roomSources[s].capacityUsed = creeps.filter(c => c.memory.sourceId === roomSources[s].id).length;
-            maxHarvesters += roomSources[s].capacity;
+            maxHarvesters++;
         }
 
-        // Assign source ids to unassigned creeps
+        // Assign Source IDs to unassigned Creeps
         let unassignedCreeps = creeps.filter(c => c.memory.sourceId === undefined);
         for (let c in unassignedCreeps) {
             let creep = unassignedCreeps[c];
+            // TODO: Should allocate the amount of WORK parts needed to fully harvest a Source before each refresh
+            // let creepWorkBodyCount = creep.body.filter(c => c.type === WORK).length;
 
             for (let s in roomSources) {
                 let source = roomSources[s];
 
-                if (source.capacityUsed < source.capacity) {
+                if (source.capacityUsed < 1) {
                     creep.memory.sourceId = roomSources[s].id;
                     source.capacityUsed += 1;
 

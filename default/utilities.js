@@ -27,7 +27,7 @@ var utilities = {
     },
 
     cull: function (creeps, minParts) {
-        for (var i in creeps)
+        for (let i in creeps)
             this.die(creeps[i]);
     },
 
@@ -43,21 +43,21 @@ var utilities = {
     },
 
     layoff: function (creeps) {
-        for (var i in creeps)
+        for (let i in creeps)
             this.unemploy(creeps[i]);
     },
 
     // TODO: Add this to the Source prototype
     findAvailableHarvestingLocations: function (source) {
-        var pos = source.pos;
-        var nw = new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName);
-        var n = new RoomPosition(pos.x, pos.y + 1, pos.roomName);
-        var ne = new RoomPosition(pos.x + 1, pos.y + 1, pos.roomName);
-        var w = new RoomPosition(pos.x - 1, pos.y, pos.roomName);
-        var e = new RoomPosition(pos.x + 1, pos.y, pos.roomName);
-        var sw = new RoomPosition(pos.x - 1, pos.y - 1, pos.roomName);
-        var s = new RoomPosition(pos.x, pos.y - 1, pos.roomName);
-        var se = new RoomPosition(pos.x + 1, pos.y - 1, pos.roomName);
+        let pos = source.pos;
+        let nw = new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName);
+        let n = new RoomPosition(pos.x, pos.y + 1, pos.roomName);
+        let ne = new RoomPosition(pos.x + 1, pos.y + 1, pos.roomName);
+        let w = new RoomPosition(pos.x - 1, pos.y, pos.roomName);
+        let e = new RoomPosition(pos.x + 1, pos.y, pos.roomName);
+        let sw = new RoomPosition(pos.x - 1, pos.y - 1, pos.roomName);
+        let s = new RoomPosition(pos.x, pos.y - 1, pos.roomName);
+        let se = new RoomPosition(pos.x + 1, pos.y - 1, pos.roomName);
 
         // Return any tile which is not an obstacle
         return [nw, n, ne, w, e, sw, s, se].filter(space => !OBSTACLE_OBJECT_TYPES.includes(Game.map.getTerrainAt(space)));

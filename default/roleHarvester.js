@@ -17,7 +17,7 @@ var roleHarvester = {
             });
         }
 
-        var transferResult = creep.transfer(destination, RESOURCE_ENERGY);
+        let transferResult = creep.transfer(destination, RESOURCE_ENERGY);
         if (transferResult == ERR_NOT_IN_RANGE) {
             creep.moveTo(destination);
         }
