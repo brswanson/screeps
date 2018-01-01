@@ -32,6 +32,8 @@ var roleCarrier = {
             let transferResult = creep.transfer(destination, RESOURCE_ENERGY);
             if (transferResult == ERR_NOT_IN_RANGE)
                 creep.travelTo(destination);
+            else if (transferResult == ERR_FULL)
+                creep.fleeFrom(destination);
         }
     }
 };

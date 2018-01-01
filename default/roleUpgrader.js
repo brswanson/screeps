@@ -12,16 +12,8 @@ var roleUpgrader = {
                     creep.travelTo(creep.room.controller);
             }
         }
-        else {
-            let source = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: function (s) {
-                    return (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 0)
-                        || (s.structureType == STRUCTURE_SPAWN && s.energy > 0)
-                }
-            });
-            if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
-                creep.travelTo(source);
-        }
+        else
+            creep.recharge();
     }
 };
 
