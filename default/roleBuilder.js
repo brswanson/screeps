@@ -11,7 +11,7 @@ var roleBuilder = {
             let closestSite = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
             if (closestSite) {
                 if (creep.build(closestSite) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(closestSite);
+                    creep.travelTo(closestSite);
                 }
             }
             else {
@@ -34,7 +34,7 @@ var roleBuilder = {
 
                 if (closestRepair) {
                     if (creep.repair(closestRepair) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(closestRepair);
+                        creep.travelTo(closestRepair);
                     }
                 }
             }
@@ -48,7 +48,7 @@ var roleBuilder = {
             });
 
             if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
-                creep.moveTo(source);
+                creep.travelTo(source);
         }
     }
 };

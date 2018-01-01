@@ -20,15 +20,15 @@ var roleWarrior = {
         if (enemy) {
             let attackResult = creep.attack(enemy);
             if (attackResult === ERR_NOT_IN_RANGE)
-                creep.moveTo(enemy);
+                creep.travelTo(enemy);
         }
         else if (flag !== undefined) {
-            creep.moveTo(flag);
+            creep.travelTo(flag);
         }
         else {
             // Rally near the center of the room if no enemies or flags exist
             let destination = new RoomPosition(25, 25, creep.room.name);
-            creep.moveTo(destination);
+            creep.travelTo(destination);
         }
     }
 };

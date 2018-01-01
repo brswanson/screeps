@@ -3,7 +3,7 @@ var roleHarvester = {
         // Harvests from its assigned source
         if (!creep.isFull()) {
             if (creep.harvest(source) == ERR_NOT_IN_RANGE)
-                creep.moveTo(source);
+                creep.travelTo(source);
         }
         // Delivers to the nearest Spawn or Extension which is below capacity
         else {
@@ -19,7 +19,7 @@ var roleHarvester = {
 
         let transferResult = creep.transfer(destination, RESOURCE_ENERGY);
         if (transferResult == ERR_NOT_IN_RANGE) {
-            creep.moveTo(destination);
+            creep.travelTo(destination);
         }
     }
 };

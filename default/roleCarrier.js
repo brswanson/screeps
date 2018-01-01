@@ -15,7 +15,7 @@ var roleCarrier = {
                 let tryPickup = creep.pickup(maxEnergy);
 
                 if (tryPickup == ERR_NOT_IN_RANGE)
-                    creep.moveTo(maxEnergy);
+                    creep.travelTo(maxEnergy);
             }
         }
         // Deliver to a nearby location
@@ -30,9 +30,8 @@ var roleCarrier = {
             });
 
             let transferResult = creep.transfer(destination, RESOURCE_ENERGY);
-            if (transferResult == ERR_NOT_IN_RANGE) {
-                creep.moveTo(destination);
-            }
+            if (transferResult == ERR_NOT_IN_RANGE)
+                creep.travelTo(destination);
         }
     }
 };

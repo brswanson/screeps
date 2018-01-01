@@ -10,7 +10,7 @@ global.RoleBuilder = 'builder';
 global.RoleUpgrader = 'upgrader';
 global.RoleWarrior = 'warrior';
 
-// const Harvester = require('aiRoleHarvester');
+const Traveler = require('Traveler');
 const Harvester = require('aiRoleHarvesterDrop');
 const Carrier = require('aiRoleCarrier');
 const Upgrader = require('aiRoleUpgrader');

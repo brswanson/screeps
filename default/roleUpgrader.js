@@ -9,7 +9,7 @@ var roleUpgrader = {
         if (creep.memory.doWork) {
             if (creep.room.controller) {
                 if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE)
-                    creep.moveTo(creep.room.controller);
+                    creep.travelTo(creep.room.controller);
             }
         }
         else {
@@ -20,7 +20,7 @@ var roleUpgrader = {
                 }
             });
             if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
-                creep.moveTo(source);
+                creep.travelTo(source);
         }
     }
 };
