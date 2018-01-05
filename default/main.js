@@ -9,6 +9,7 @@ global.RoleCarrier = 'carrier';
 global.RoleBuilder = 'builder';
 global.RoleUpgrader = 'upgrader';
 global.RoleWarrior = 'warrior';
+global.RoleScout = 'scout';
 
 const Traveler = require('Traveler');
 const Harvester = require('aiRoleHarvesterDrop');
@@ -16,6 +17,7 @@ const Carrier = require('aiRoleCarrier');
 const Upgrader = require('aiRoleUpgrader');
 const Builder = require('aiRoleBuilder');
 const Warrior = require('aiRoleWarrior');
+const Scout = require('aiRoleScout');
 
 const Spawner = require('aiSpawner');
 const RoomSurveyor = require('aiRoomSurveyor');
@@ -33,6 +35,7 @@ module.exports.loop = function () {
         let room = Game.rooms[i];
         let spawn = RoomSurveyor.run(room);
 
+        Scout.run(room);
         let militaryTarget = Warmaster.run();
 
         // TODO: Add a load balancer to allocate workers appropriately amongst the different AI
@@ -44,10 +47,11 @@ module.exports.loop = function () {
             let maxUpgraders = 2;
             // TODO: Only spend CPU & Energy on warmaking if a Flag exists. This may become a liability and need to be updated at some point.
             let maxWarriors = ((militaryTarget !== undefined) ? 40 : 0);
+            let maxScouts = 1;
 
             Builder.run(room);
             Upgrader.run(room);
-            Spawner.run(room, spawn, maxHarvesters, maxCarriers, maxBuilders, maxUpgraders, maxWarriors);
+            Spawner.run(room, spawn, maxHarvesters, maxCarriers, maxBuilders, maxUpgraders, maxWarriors, maxScouts);
             Architect.run(room, spawn);
         }
 

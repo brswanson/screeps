@@ -70,4 +70,5 @@ Potential future emojis for debugging:
 ⚕
 🛒
 ⚗
+🔭
 */

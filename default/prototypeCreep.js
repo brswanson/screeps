@@ -50,3 +50,8 @@ Creep.prototype.fleeFrom = function (pursuer) {
     // Intentionally not using TravelTo since this should always be a small distance
     this.moveTo(this.pos.x + xAdd, this.pos.y + yAdd, { ignoreCreeps: true });
 };
+
+Creep.prototype.goHome = function () {
+    // Simply tries to move toward the center most point of its home room. This point may be invalid.
+    this.moveTo(new RoomPosition(25, 25, this.memory.room));
+};
