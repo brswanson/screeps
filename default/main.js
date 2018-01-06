@@ -1,7 +1,7 @@
 require('prototypes');
 
 global.Utilities = require('utilities');
-global.ClassWarrior = 'warrior';
+global.ClassWarrior = 'military';
 global.ClassCivilain = 'civilain';
 
 global.RoleHarvester = 'harvester';
@@ -36,7 +36,9 @@ module.exports.loop = function () {
         let spawn = RoomSurveyor.run(room);
 
         Scout.run(room);
-        let militaryTarget = Warmaster.run();
+        Warmaster.assignTargets(room);
+        let militaryTarget = Warmaster.getTarget();
+
 
         // TODO: Add a load balancer to allocate workers appropriately amongst the different AI
         // Only execute infrastructure tasks in rooms we own
@@ -46,7 +48,7 @@ module.exports.loop = function () {
             let maxBuilders = 3;
             let maxUpgraders = 2;
             // TODO: Only spend CPU & Energy on warmaking if a Flag exists. This may become a liability and need to be updated at some point.
-            let maxWarriors = ((militaryTarget !== undefined) ? 40 : 0);
+            let maxWarriors = ((militaryTarget !== null) ? 40 : 0);
             let maxScouts = 1;
 
             Builder.run(room);

@@ -25,7 +25,7 @@ var roleScout = {
         else {
             // Wait for a tick. By not moving, the engine will push the Scout back into the previous room
             creep.memory.doWork = true;
-            if (creep.memory.scoutIndex > roomExits.length)
+            if (creep.memory.scoutIndex >= roomExits.length)
                 creep.memory.scoutIndex = 0;
         }
     }

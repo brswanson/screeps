@@ -20,7 +20,6 @@ var aiSpawner = {
             displayCreepDemographics(totalHarvesters, maxHarvesters, totalCarriers, maxCarriers, totalBuilders, maxBuilders, totalUpgraders, maxUpgraders, totalWarriors, maxWarriors, totalScouts, maxScouts);
         }
 
-
         // Harvesters & Carriers
         if (totalHarvesters < maxHarvesters || totalCarriers < maxCarriers) {
             // Saturate each Harvester with at least one Carrier before spawning more Harvesters
@@ -82,24 +81,24 @@ function spawnCreepWithProperties(total, max, payload, className, roleName, room
                     payload.push.apply(payload, originalPayload);
             }
 
-            let creepName = room.name + '_' + roleName + '_' + global.Utilities.newGuid();
+            let creepName = `${room.name}_${roleName}_${global.Utilities.newGuid()}`;
             let success = spawn.spawnCreep(payload, creepName, { memory: { room: room.name, class: className, job: roleName } });
 
             if (success >= 0)
-                console.log('[' + room.name + '] spawned [' + className + '_' + roleName + '] creep [' + (total + 1) + '/' + max + '] ' + creepName);
+                console.log(`[${room.name}] spawned [${className}_${roleName}] [${(total + 1)}/${max}] ${creepName}`);
             else
-                console.log('[' + room.name + '] FAILED to spawn ' + className + ' creep [' + (total + 1) + '/' + max + '] ');
+                console.log(`[${room.name}] FAILED to spawn [${className}_${roleName}] [${(total + 1)}/${max}]`);
         }
     }
 }
 
 function displayCreepDemographics(totalHarvesters, maxHarvesters, totalCarriers, maxCarriers, totalBuilders, maxBuilders, totalUpgraders, maxUpgraders, totalWarriors, maxWarriors, totalScouts, maxScouts) {
-    var msg = 'Harvesters[' + totalHarvesters + '/' + maxHarvesters + '] ';
-    msg += 'Carriers[' + totalCarriers + '/' + maxCarriers + '] ';
-    msg += 'Builders[' + totalBuilders + '/' + maxBuilders + '] ';
-    msg += 'Upgrader [' + totalUpgraders + '/' + maxUpgraders + '] ';
-    msg += 'Warriors[' + totalWarriors + '/' + maxWarriors + '] ';
-    msg += 'Scouts[' + totalScouts + '/' + maxScouts + '] ';
+    var msg = `Harvesters[${totalHarvesters}/${maxHarvesters}]`;
+    msg += ` Carriers[${totalCarriers}/${maxCarriers}]`;
+    msg += ` Builders[${totalBuilders}/${maxBuilders}]`;
+    msg += ` Upgraders[${totalUpgraders}/${maxUpgraders}]`;
+    msg += ` Warriors[${totalWarriors}/${maxWarriors}]`;
+    msg += ` Scouts[${totalScouts}/${maxScouts}]`;
     console.log(msg);
 }
 

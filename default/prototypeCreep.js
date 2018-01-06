@@ -34,7 +34,7 @@ Creep.prototype.isWounded = function () {
 };
 
 Creep.prototype.die = function () {
-    console.log('[' + this.name + ']: RIP ⚰');
+    console.log(`[${this.name}]: RIP ⚰`);
     this.suicide();
 };
 
