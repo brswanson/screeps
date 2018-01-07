@@ -35,7 +35,6 @@ var aiWarmaster = {
 
             // Create the flag
             var result = room.createFlag(room.controller.pos.x, room.controller.pos.y, calculateFlagValue(room, enemyCount), WAR_FLAG_COLOR, WAR_FLAG_COLOR);
-            console.log(result);
         }
     }
 }

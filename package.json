@@ -1,0 +1,29 @@
+{
+  "name": "infybot",
+  "version": "1.0.1",
+  "description": "Screeps AI",
+  "main": "default/main.js",
+  "maintainers": [
+    {
+      "name": "ben r swanson",
+      "email": "slash.brswanson@gmail.com"
+    }
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brswanson/screeps.git"
+  },
+  "screeps_bot": true,
+  "keywords": [
+    "screeps"
+  ],
+  "author": "Ben R Swanson",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/brswanson/screeps/issues"
+  },
+  "homepage": "https://github.com/brswanson/screeps#readme"
+}
